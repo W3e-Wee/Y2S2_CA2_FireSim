@@ -10,7 +10,7 @@ namespace FlexibleCelShader
     public static class PresetHelper
     {
 
-        public readonly static string PresetDirectoryPath = Application.dataPath + "/Thirdparty/FlexibleCelShader/Presets/";
+        public readonly static string PresetDirectoryPath = Application.dataPath + "/FlexibleCelShader/Presets/";
 
         public static void SavePreset(string presetName, MaterialProperty[] properties)
         {
