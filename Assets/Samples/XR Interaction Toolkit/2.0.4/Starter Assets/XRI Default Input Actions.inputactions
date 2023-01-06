@@ -1079,9 +1079,18 @@
             "id": "562859a5-f152-4780-94c8-ad00fcc76c2f",
             "actions": [
                 {
-                    "name": "RightToggleGauntlet",
+                    "name": "RightGauntletToggle",
                     "type": "Button",
                     "id": "85399e4f-00e2-43f0-ac31-54d485891b09",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LeftGauntletToggle",
+                    "type": "Button",
+                    "id": "39c75acf-78d5-43ef-bdb7-2d7ca19c9413",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -1096,7 +1105,18 @@
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "Generic XR Controller",
-                    "action": "RightToggleGauntlet",
+                    "action": "RightGauntletToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "06c19b54-63f4-4dc6-9e9b-248e33a326d4",
+                    "path": "<XRController>{LeftHand}/triggerPressed",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftGauntletToggle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
