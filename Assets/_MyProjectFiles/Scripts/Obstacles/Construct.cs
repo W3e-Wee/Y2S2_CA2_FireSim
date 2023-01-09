@@ -19,19 +19,19 @@ public class Construct : MonoBehaviour
 	// [SerializeField] Private Variables
 	//====================================
 	[SerializeField] private Image barFill;
+	[SerializeField] private float totalNeededRepair = 0f;
 	[SerializeField] private float repairAmount = 0f;
-	[SerializeField, Range(0f, 200f)] private float totalNeededRepair = 0f;
 	//===================
 	// Private Variables
 	//===================
-	private TaskManager task;
+	// private TaskManager task;
 	#endregion
 	
 	#region Unity Methods
 	protected void Start()
 	{
 		// Get TaskManager gameObject
-		task = GameObject.FindGameObjectWithTag("TaskManager").GetComponent<TaskManager>();
+		// task = GameObject.FindGameObjectWithTag("TaskManager").GetComponent<TaskManager>();
 
 		// Set bar fill amount
 		// barFill.fillAmount = repairAmount;
@@ -53,25 +53,25 @@ public class Construct : MonoBehaviour
 		// Switch case to show repair progress
 		switch((float)fillAmount)
 		{
-			case(<= .25f):
+			case(.25f):
 				print("Repair at 25%");
 
 				// Visual feedback here
 
 				break;
-			case(<= .50f):
+			case(.50f):
 				print("Repair at 50%");
 
 				// Visual feedback here
 
 				break;
-			case(<= .75f):
+			case(.75f):
 				print("Repair at 75%");
 
 				// Visual feedback here
 
 				break;
-			case(<= 1.00f):
+			case(1.00f):
 				print("Wall Repaired");
 
 				// Visual feedback here

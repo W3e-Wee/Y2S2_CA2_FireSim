@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 //---------------------------------------------------------------------------------
 // Author		: Wee Heng
@@ -23,7 +22,7 @@ public class Fire : MonoBehaviour
     [Header("Fire Regen Settings")]
     [SerializeField, Range(0f, 5f)] private float fireRegenRate = .2f;
     [SerializeField, Range(0f, 5f)] private float fireRegenDelay = 2.5f;
-
+    [Space]
     [SerializeField] private Image barFill;
 
     //====================================
@@ -39,7 +38,7 @@ public class Fire : MonoBehaviour
     protected void Start()
     {
 		// Get TaskManager component
-        task = GameObject.FindGameObjectWithTag("TaskManager").GetComponent<TaskManager>();
+        // task = GameObject.FindGameObjectWithTag("TaskManager").GetComponent<TaskManager>();
 
 		// Set progress bar
         // barFill.fillAmount = fireIntensity;
@@ -47,7 +46,7 @@ public class Fire : MonoBehaviour
 		// Populate variable
         startIntensities = new float[fireParticleSystem.Length];
 
-		// Sets the start intensirt for each fireParticle in scene
+		// Sets the start intensity for each fireParticle in scene
         for (int i = 0; i < fireParticleSystem.Length; i++)
         {
             startIntensities[i] = fireParticleSystem[i].emission.rateOverTime.constant;
@@ -118,7 +117,7 @@ public class Fire : MonoBehaviour
 	/// </summary>
     public void ChangeIntensity()
     {
-        // Decreases each fire particle's rate over time
+       // decrease fire particle
         for (int i = 0; i < fireParticleSystem.Length; i++)
         {
             var emission = fireParticleSystem[i].emission;

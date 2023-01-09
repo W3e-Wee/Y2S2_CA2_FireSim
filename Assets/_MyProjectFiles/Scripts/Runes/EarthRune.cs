@@ -21,7 +21,7 @@ public class EarthRune : MonoBehaviour
 
     [Header("Rune Setting")]
     [SerializeField] private ParticleSystem earthparticle;
-    [SerializeField, Range(0f, 1f)] private float wallRepairAmount = .5f;
+    [SerializeField, Range(0f, 20f)] private float wallRepairAmount = 1f;
     [SerializeField] private float manaCount = 100f;
     [SerializeField] private float manaDecreaseAmt = 0f;
 
@@ -50,6 +50,7 @@ public class EarthRune : MonoBehaviour
         {
             // Repair wall
             FixWall();
+
         }// End of IF check
     }
     #endregion
@@ -62,25 +63,27 @@ public class EarthRune : MonoBehaviour
     private void FixWall()
     {
         // Fire a raycast
-        if (Physics.Raycast(rayFirePos.position, rayFirePos.forward, out hit, rayRange, layerMask))
+        if (Physics.Raycast(rayFirePos.position, rayFirePos.forward, out hit, rayRange))
         {
+            print("Gameobject hit: " + hit.transform.name);
             // Repair the wall
-            if(hit.collider.TryGetComponent(out Construct wall))
+            if (hit.collider.TryGetComponent(out Construct wall))
             {
                 // Play earth particle here
 
+                print("Fixing Wall");
                 wall.WallRepairing(wallRepairAmount * Time.deltaTime);
             } // End of IF check 2
 
-            // Decrease mana
-            DecreaseMana(manaDecreaseAmt);
-
         }
-        else 
+        else
         {
             // Stop earth particle
-             
+
         } // End of IF...ElSE
+
+        // Decrease mana
+        DecreaseMana(manaDecreaseAmt);
 
     }// End of Repair method
 
@@ -97,11 +100,11 @@ public class EarthRune : MonoBehaviour
         float percentageDecrease = mana / manaCount;
 
         // When mana hits 0
-		if(mana <= 0)
-		{
-			onLowGauge();
+        if (mana <= 0)
+        {
+            onLowGauge();
 
-		}// End of IF check
+        }// End of IF check
 
     }// End of DecreaseMana method
 
