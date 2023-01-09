@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Rune
   - Socket
+  - Debris
   layers:
   - Default
   - TransparentFX
