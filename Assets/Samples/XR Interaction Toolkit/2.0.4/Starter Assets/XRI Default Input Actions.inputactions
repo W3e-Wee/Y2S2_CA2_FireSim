@@ -1095,6 +1095,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleGunArm",
+                    "type": "Button",
+                    "id": "0d8e398c-5f49-4c78-aee1-3ce4f8659da8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1117,6 +1126,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "LeftGauntletToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "65951701-ad43-47c1-b593-b7afc8735338",
+                    "path": "<XRController>{LeftHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleGunArm",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
