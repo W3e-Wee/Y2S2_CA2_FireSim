@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections;
+using System.Collections.Generic;
 
 //---------------------------------------------------------------------------------
 // Author		: Wee Heng
@@ -13,24 +13,46 @@ public class EnemyBT : Tree
     // =====================
     // Navigation Setting
     // ====================
+
+    [Header("Navigation Settings")]
     public Transform[] wayPoints;
     public NavMeshAgent agent;
     public float waitTime;
-    public float pendingDistance;
 
+    [Header("Range Settings")]
+    public float noticeRange;
+    public float attackRange;
+
+    public const string TARGET_KEY = "target";
+
+    #region Tree Methods
     protected override void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.autoBraking = false;
+        // agent.stoppingDistance = attackRange;
 
         wayPoints = GameObject.FindGameObjectWithTag("WayPoint").GetComponentsInChildren<Transform>();
-        
-		base.Start();
+
+        base.Start();
     }
     protected override Node SetUpTree()
     {
-        Node root = new EnemyPatrol(wayPoints, agent, waitTime, pendingDistance);
+        Node root = new SelectorNode(new List<Node>{
+            // Attack Sequence
+            new SequenceNode(new List<Node>{
+                new CheckPlayerInAttackRange(agent, attackRange),
+                new EnemyAttack(agent)
+            }),
+            // Chase Sequence
+            new SequenceNode(new List<Node>{
+                new CheckPlayerInRange(agent, noticeRange),
+                new ChaseTarget(agent)
+            }),
+            // Fallback Node
+            new EnemyPatrol(wayPoints,agent,waitTime),
+        });
 
         return root;
     }
+    #endregion
 }

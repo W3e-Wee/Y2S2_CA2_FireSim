@@ -19,7 +19,7 @@ public abstract class Node
 
     protected NodeState state;
     public Node parent;
-    protected List<Node> children;
+    protected List<Node> children = new List<Node>();
     private Dictionary<string, object> _dataContext = new Dictionary<string, object>();
 
     #region Base Methods
@@ -32,10 +32,10 @@ public abstract class Node
     {
         foreach(Node child in children)
         {
-            Attach(child);
+            _Attach(child);
         }
     }
-    private void Attach(Node node)
+    private void _Attach(Node node)
     {
         node.parent = this;
         children.Add(node);

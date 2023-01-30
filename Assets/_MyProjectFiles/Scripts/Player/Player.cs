@@ -10,6 +10,7 @@ using System.Collections;
 public class Player : MonoBehaviour 
 {
 	#region Variables
+	public bool isPlayerDead;
 	//====================================
 	// [SerializeField] Private Variables
 	//====================================
@@ -19,13 +20,13 @@ public class Player : MonoBehaviour
 	//===================
 	// Private Variables
 	//===================
-
 	#endregion
 	
 	#region Unity Methods
 	protected void Start()
 	{
 		currentHealth = maxHealth;
+		isPlayerDead = false;
 	}
 	#endregion
 
@@ -33,8 +34,16 @@ public class Player : MonoBehaviour
 	public void TakeDmg(int damage)
 	{
 		// Play an effect to show player hit
+
 		print("Player hit");
 		currentHealth -= damage;
+
+		if(currentHealth <= 0)
+		{
+			isPlayerDead = true;
+		}
+		
+		isPlayerDead = false;
 	}
 	#endregion
 

@@ -19,7 +19,6 @@ public class EnemyPatrol : Node
     // Navigation Setting
     // ====================
     private NavMeshAgent _agent;
-    private float _pendingDistance;
 
     // ====================
     // Time Setting
@@ -34,45 +33,60 @@ public class EnemyPatrol : Node
     private Animator _animator;
 
     #region Own Methods
-    public EnemyPatrol(Transform[] wayPoints, NavMeshAgent agent, float waitTime, float distance)
+    public EnemyPatrol(Transform[] wayPoints, NavMeshAgent agent, float waitTime)
     {
         _wayPoints = wayPoints;
         _agent = agent;
         _waitTime = waitTime;
-        _pendingDistance = distance;
         _animator = agent.GetComponent<Animator>();
     }
     public override NodeState Evaluate()
     {
         // when nearing the waypoint
-        if (_agent.remainingDistance <= _pendingDistance && !_agent.pathPending)
+        // _agent.remainingDistance <= _pendingDistance && !_agent.pathPending
+
+        float distToTarget = Vector3.Distance(_agent.destination, _agent.transform.position);
+
+        if (distToTarget <= 0f)
         {
-            waitCounter = _waitTime;
+            _animator.SetBool("isPatrolling", false);
+            Debug.Log("Distance to waypoint: " + distToTarget);
+            // Waiting...
+            waitCounter += Time.deltaTime;
 
-            if (_wayPoints.Length == 0)
+            // Get the coord. of next waypoint
+            if (waitCounter >= _waitTime)
             {
-                state = NodeState.FAILURE;
-                return state;
+                GoToDest();
             }
-
-            // Go to destination
-            _agent.destination = _wayPoints[_wayPointIndex].position;
-            Debug.Log("Current target: " + _wayPoints[_wayPointIndex].position);
-
-            if (_agent.remainingDistance <= 0f && waitCounter >= 0f)
-            {
-                Debug.Log("Current wait: " + waitCounter);
-                _animator.SetBool("isPatrolling", false);
-                
-                waitCounter -= Time.deltaTime;
-            }
-
-            _wayPointIndex = Random.Range(0, _wayPoints.Length) % (_wayPoints.Length);
         }
 
 
         state = NodeState.RUNNING;
         return state;
+    }
+
+    private void GoToDest()
+    {
+        _animator.SetBool("isPatrolling", true);
+        
+        // reset waitCounter
+        waitCounter = 0f;
+        Debug.Log("Reset counter");
+
+        // check waypoints in scene
+        if (_wayPoints.Length == 0)
+        {
+            Debug.LogWarning("No Waypoints in scene");
+            return;
+        }
+
+        // Get random waypoint index
+        _wayPointIndex = Random.Range(0, _wayPoints.Length) % (_wayPoints.Length);
+        Debug.Log("Way point: " + _wayPointIndex);
+
+        // move to wayPoint
+        _agent.destination = _wayPoints[_wayPointIndex].position;
     }
     #endregion
 }
