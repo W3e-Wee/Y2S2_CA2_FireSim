@@ -7,6 +7,8 @@ TagManager:
   - Rune
   - Socket
   - Debris
+  - Weapon
+  - WayPoint
   layers:
   - Default
   - TransparentFX
@@ -15,7 +17,7 @@ TagManager:
   - Water
   - UI
   - 
-  - 
+  - Player
   - Teleport
   - Objective
   - 
@@ -43,4 +45,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 1428130949
+    locked: 0
+  - name: Waypoint
+    uniqueID: 2490940111
     locked: 0
