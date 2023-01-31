@@ -47,16 +47,18 @@ public class EnemyPatrol : Node
 
         float distToTarget = Vector3.Distance(_agent.destination, _agent.transform.position);
 
-        if (distToTarget <= 0f)
+        if (distToTarget < 0.01f)
         {
-            _animator.SetBool("isPatrolling", false);
-            Debug.Log("Distance to waypoint: " + distToTarget);
+            _animator.SetFloat("moveBlend", 0f);
+
             // Waiting...
             waitCounter += Time.deltaTime;
 
             // Get the coord. of next waypoint
             if (waitCounter >= _waitTime)
             {
+                _animator.SetFloat("moveBlend", 1f);
+
                 GoToDest();
             }
         }
@@ -68,11 +70,8 @@ public class EnemyPatrol : Node
 
     private void GoToDest()
     {
-        _animator.SetBool("isPatrolling", true);
-        
         // reset waitCounter
         waitCounter = 0f;
-        Debug.Log("Reset counter");
 
         // check waypoints in scene
         if (_wayPoints.Length == 0)

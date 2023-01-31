@@ -11,10 +11,11 @@ using System.Collections;
 public class ChaseTarget : Node
 {
 	private NavMeshAgent _agent;
-
-	public ChaseTarget(NavMeshAgent agent)
+	private float _speed;
+	public ChaseTarget(NavMeshAgent agent, float agentSpeed)
 	{
 		_agent = agent;
+		_speed = agentSpeed;
 	}
 
     public override NodeState Evaluate()
@@ -22,9 +23,13 @@ public class ChaseTarget : Node
 		// // get target transform
         Transform target = (Transform)GetData(EnemyBT.TARGET_KEY);
 		
-		// // move to target if greater than stopping distance
-		if(Vector3.Distance(_agent.transform.position, target.position) >= 0)
+		// // move to target if spotted
+		if(Vector3.Distance(_agent.transform.position, target.position) >= 0.01f)
 		{
+			// increase agent speed
+			_agent.speed = _speed;
+		
+			// go to target
 			_agent.destination = target.position;
 		}
 		

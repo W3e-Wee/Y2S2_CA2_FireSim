@@ -7,44 +7,47 @@ using System.Collections;
 // Description	: Manages the player's stats
 //---------------------------------------------------------------------------------
 
-public class Player : MonoBehaviour 
+public class Player : MonoBehaviour
 {
-	#region Variables
-	public bool isPlayerDead;
-	//====================================
-	// [SerializeField] Private Variables
-	//====================================
-	[SerializeField] private int maxHealth;
-	[SerializeField] private int currentHealth;
+    #region Variables
+    //====================================
+    // [SerializeField] Private Variables
+    //====================================
+    [SerializeField] private int currentHealth;
+	[SerializeField] private bool isPlayerDead;
+	[SerializeField] private int dmgTaken = 10;
+    //===================
+    // Private Variables
+    //===================
+    #endregion
 
-	//===================
-	// Private Variables
-	//===================
-	#endregion
-	
-	#region Unity Methods
-	protected void Start()
-	{
-		currentHealth = maxHealth;
-		isPlayerDead = false;
-	}
-	#endregion
+    #region Unity Methods
+    protected void Start()
+    {
+        currentHealth = 100;
+        isPlayerDead = false;
+    }
+    #endregion
 
-	#region Own Methods
-	public void TakeDmg(int damage)
-	{
-		// Play an effect to show player hit
-
-		print("Player hit");
-		currentHealth -= damage;
-
+    #region Own Methods
+    public bool TakeDmg()
+    {
+		currentHealth -= dmgTaken;
+		
 		if(currentHealth <= 0)
 		{
 			isPlayerDead = true;
+			Die();
+			return isPlayerDead;
 		}
-		
-		isPlayerDead = false;
+
+		return isPlayerDead;
+    }
+
+	private void Die()
+	{
+		this.GetComponent<CapsuleCollider>().enabled = false;
 	}
-	#endregion
+    #endregion
 
 }

@@ -13,18 +13,20 @@ public class CheckPlayerInAttackRange : Node
 	#region Variable
 	private NavMeshAgent _agent;
 	private float _attackRange;
+	private Animator _anim;
 	#endregion
 
 	public CheckPlayerInAttackRange(NavMeshAgent agent, float attackRange)
 	{
 		_agent = agent;
 		_attackRange = attackRange;
+		_anim = _agent.transform.GetComponent<Animator>();
 	}
 	#region Node Methods
     public override NodeState Evaluate()
     {
 		object t = GetData(EnemyBT.TARGET_KEY);
-		
+
 		// check if a target is present
 		if(t == null)
 		{
@@ -35,9 +37,12 @@ public class CheckPlayerInAttackRange : Node
 		// gets Transform of the target
 		Transform target = (Transform)t;
 		_agent.stoppingDistance = _attackRange;
-		if(Vector3.Distance(_agent.transform.position, target.position) >= _agent.stoppingDistance)
+
+		if(Vector3.Distance(_agent.transform.position, target.position) <= _agent.stoppingDistance)
 		{
-			Debug.Log("Player in Attack Range");
+			// stop chasing, get ready to attack
+			_anim.SetFloat("moveBlend", 0f);
+
 			state = NodeState.SUCCESS;
 			return state;
 		}

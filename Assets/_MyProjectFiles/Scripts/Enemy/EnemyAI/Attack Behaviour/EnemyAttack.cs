@@ -10,37 +10,63 @@ using System.Collections;
 
 public class EnemyAttack : Node
 {
-	private NavMeshAgent _agent;
-	private Animator _anim;
-	public EnemyAttack(NavMeshAgent agent)
-	{
-		_agent = agent;
-		_anim = agent.transform.GetComponent<Animator>();
-	}
+    private NavMeshAgent _agent;
+    private Animator _anim;
+    private float attackCounter;
+    private float attackCD = 1f;
+
+    #region Node Methods
+    public EnemyAttack(NavMeshAgent agent)
+    {
+        _agent = agent;
+        _anim = agent.transform.GetComponent<Animator>();
+    }
+
     public override NodeState Evaluate()
     {
-		
-		Transform target = (Transform)GetData(EnemyBT.TARGET_KEY);
-		Player _player = target.GetComponent<Player>();
+        // Check if the target exists
+        Transform target = (Transform)GetData(EnemyBT.TARGET_KEY);
 
-		if(_player == null)
-		{
-			state = NodeState.FAILURE;
-			return state;
-		}
-		// play attacking animation
-		Debug.Log("Attacking");
+        if (target == null)
+        {
+            state = NodeState.FAILURE;
+            return state;
+        }
 
-		// check if player is dead
-		bool playerDead = _player.isPlayerDead;
-		if(playerDead)
-		{
-			ClearData(EnemyBT.TARGET_KEY);
-			// stop attack anim
-			// enable walk
-		}
+        // Get player script
+        Player _player = target.GetComponent<Player>();
+
+        // Play attacking animation
+        _anim.SetBool("isAttacking", true);
+
+
+        Debug.Log("Attacking");
+        attackCounter += Time.deltaTime;
+        if (attackCounter >= attackCD)
+        {
+            bool playerDead = _player.TakeDmg();
+
+            // Check if player is dead
+            if (playerDead)
+            {
+                ClearData(EnemyBT.TARGET_KEY);
+                _agent.stoppingDistance = 0;
+                _agent.speed = 2f;
+
+                // stop attack anim
+                _anim.SetBool("isAttacking", false);
+                _anim.SetFloat("moveBlend", 0f);
+            }
+            else
+            {
+                attackCounter = 0f;
+            }
+        }
+
 
         state = NodeState.RUNNING;
-		return state;
+        return state;
     }
+
+    #endregion
 }

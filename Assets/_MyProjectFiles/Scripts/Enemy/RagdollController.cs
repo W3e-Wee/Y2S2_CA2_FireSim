@@ -32,16 +32,16 @@ public class RagdollController : MonoBehaviour
 
     protected void Update()
     {
-        if (enableRagdoll)
-        {
-            SetRagDollCollider(true);
-            SetRigidBodyKinematic(false);
-        }
-        else
-        {
-            SetRagDollCollider(false);
-            SetRigidBodyKinematic(true);
-        }
+        // if (enableRagdoll)
+        // {
+        //     SetRagDollCollider(true);
+        //     SetRigidBodyKinematic(false);
+        // }
+        // else
+        // {
+        //     SetRagDollCollider(false);
+        //     SetRigidBodyKinematic(true);
+        // }
     }
     #endregion
 
@@ -59,6 +59,12 @@ public class RagdollController : MonoBehaviour
         {
             rb.isKinematic = enabled;
         }
+    }
+
+    public void EnableRigidBody()
+    {
+        SetRagDollCollider(true);
+        SetRigidBodyKinematic(false);
     }
     #endregion
 

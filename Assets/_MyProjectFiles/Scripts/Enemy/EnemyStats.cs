@@ -7,51 +7,57 @@ using System.Collections;
 // Description	: Script managing enemy stats
 //---------------------------------------------------------------------------------
 
-public class EnemyStats : MonoBehaviour 
+public class EnemyStats : MonoBehaviour
 {
-	#region Variables
-	//====================================
-	// [SerializeField] Private Variables
-	//====================================
-	[SerializeField]private int maxHealth;
-	[SerializeField]private int currentHealth;
+    #region Variables
+    //====================================
+    // [SerializeField] Private Variables
+    //====================================
+    public int currentHealth;
 
-	[SerializeField] private int attackDmg;
+    //===================
+    // Private Variables
+    //===================
+    [SerializeField] private bool isDead = false;
 
-	//===================
-	// Private Variables
-	//===================
+    //===================
+    // Private Variables
+    //===================
+    private Animator anim;
+    #endregion
 
-	#endregion
-	
-	#region Unity Methods
-	protected void Start()
-	{
-		currentHealth = maxHealth;
-	}
-	#endregion
+    #region Unity Methods
+    protected void Start()
+    {
+        anim = this.GetComponent<Animator>();
+    }
 
-	#region Own Methods
-	public void TakeDmg(int damage)
-	{
-		currentHealth -= damage;
-		if(currentHealth <= 0)
-		{
-			// enemy die
-		}
-	}
-
-	void OnCollisionEnter(Collision collision)
-	{
-		if(collision.transform.TryGetComponent(out Player player))
-		{
-			player.TakeDmg(attackDmg);
-		}
-		if(collision.transform.TryGetComponent(out Weapon axe))
-		{
-			currentHealth -= axe.attackDmg;
-		}
-	}
+	// TEMPORARY (FOR TESTING)
+    protected void Update()
+    {
+        if (isDead)
+        {
+            Die();
+        }
+    }
+    
 	#endregion
 
+    #region Own Methods
+    private void Die()
+    {
+        this.GetComponent<EnemyBT>().enabled = false;
+
+        anim.SetBool("isDead", true);
+    }
+    public void TakeHit(int damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            // enemy die
+            Die();
+        }
+    }
+    #endregion
 }
