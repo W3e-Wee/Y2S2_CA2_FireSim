@@ -20,18 +20,25 @@ public class GameManager : Singleton<GameManager>
     // =============================
     // Public
     // =============================
+    public enum GameState
+    {
+        PREGAME,
+        RUNNING,
+        PAUSED
+    }
     public GameObject[] systemPrefabs;
 
     // =============================
     // [SerializedField] Private
     // =============================
     [SerializeField] private List<AsyncOperation> loadOperations;
-    
+
     // =============================
     // Private
     // =============================
     private string currentLevelName = string.Empty;
     private List<GameObject> instancedSystemPrefabs;
+    private GameState currentGameState = GameState.PREGAME;
 
     #endregion
 
@@ -45,15 +52,13 @@ public class GameManager : Singleton<GameManager>
         instancedSystemPrefabs = new List<GameObject>();
 
         InstantiateSystemPrefabs();
-
-        LoadLevel("Menu_Scene");
     }
 
     protected override void OnDestroy()
-    {   
+    {
         base.OnDestroy();
 
-        for(int i = 0; i < instancedSystemPrefabs.Count; i++)
+        for (int i = 0; i < instancedSystemPrefabs.Count; i++)
         {
             Destroy(instancedSystemPrefabs[i]);
         }
@@ -63,18 +68,59 @@ public class GameManager : Singleton<GameManager>
     #endregion
 
     #region Own Methods
+    /// <summary>
+    /// Called to add prefabs to list
+    /// </summary>
     private void InstantiateSystemPrefabs()
     {
         GameObject prefabInstance;
 
-        for(int i = 0; i < systemPrefabs.Length; i++)
+        for (int i = 0; i < systemPrefabs.Length; i++)
         {
             prefabInstance = Instantiate(systemPrefabs[i]);
             instancedSystemPrefabs.Add(prefabInstance);
         }
     }
+    #region Game State Methods
 
+    /// <summary>
+    /// Used to change GameState in other scripts
+    /// </summary>
+    /// <value></value>
+    public GameState CurrentGameState
+    {
+        get { return currentGameState; }
+        set { currentGameState = value; }
+    }
+
+    /// <summary>
+    /// Triggers actions/events related to GameState
+    /// </summary>
+    /// <param name="state"></param>
+    private void UpdateState(GameState state)
+    {
+        currentGameState = state;
+
+        switch (currentGameState)
+        {
+            case GameState.PREGAME:
+                break;
+            case GameState.RUNNING:
+                break;
+            case GameState.PAUSED:
+                break;
+            default:
+                break;
+        }
+    }
+
+    #endregion
     #region Scene Management Methods
+
+    /// <summary>
+    /// Trigger actions/events when new scene is loaded
+    /// </summary>
+    /// <param name="ao"></param>
     private void onLoadOperationComplete(AsyncOperation ao)
     {
         // check to see if this methods being called elsewhere
@@ -83,18 +129,29 @@ public class GameManager : Singleton<GameManager>
             loadOperations.Remove(ao);
         }
 
+        // check if there are any loadOperations running
+        if (loadOperations.Count == 0)
+        {
+            UpdateState(GameState.RUNNING);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(currentLevelName));
+        }
         
-
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(currentLevelName));
-
         Debug.Log("Load Completed");
     }
 
+    /// <summary>
+    /// Triggers actions/events when a scene is unloaded
+    /// </summary>
+    /// <param name="ao"></param>
     private void onUnloadOperationComplete(AsyncOperation ao)
     {
         Debug.Log("Unload Completed");
     }
 
+    /// <summary>
+    ///  Loads a new scene with matching levelName
+    /// </summary>
+    /// <param name="levelName"></param>
     public void LoadLevel(string levelName)
     {
         // load scene and save AsyncOperation (ao)
@@ -113,11 +170,21 @@ public class GameManager : Singleton<GameManager>
         currentLevelName = levelName;
     }
 
+    /// <summary>
+    /// Unloads a scene with matching levelName
+    /// </summary>
+    /// <param name="levelName"></param>
     public void UnloadLevel(string levelName)
     {
         AsyncOperation ao = SceneManager.LoadSceneAsync(levelName);
         ao.completed += onUnloadOperationComplete;
     }
+
+    public void StartGame()
+    {
+        LoadLevel("Menu_Scene");
+    }
+
     #endregion
 
     #endregion

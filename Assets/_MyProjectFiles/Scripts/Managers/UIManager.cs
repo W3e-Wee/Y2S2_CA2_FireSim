@@ -27,6 +27,13 @@ public class UIManager : Singleton<UIManager>
     #region Unity Methods
     private void Start()
     {
+        // check if the 
+        if(GameManager.Instance.CurrentGameState != GameManager.GameState.PREGAME)
+        {
+            return;
+        }
+
+        GameManager.Instance.StartGame();
         fadeCam.FadeOutCanvas();
     }
 
