@@ -18,7 +18,6 @@ public class UIManager : Singleton<UIManager>
     // [SerializeField] Private Variables
     //====================================
     [SerializeField] private MainMenu mainMenu;
-    [SerializeField] private FadeCamera fadeCam;
     //===================
     // Private Variables
     //===================
@@ -27,14 +26,14 @@ public class UIManager : Singleton<UIManager>
     #region Unity Methods
     private void Start()
     {
-        // check if the 
+        // check if the GameState is RUNNING
         if(GameManager.Instance.CurrentGameState != GameManager.GameState.PREGAME)
         {
             return;
         }
 
         GameManager.Instance.StartGame();
-        fadeCam.FadeOutCanvas();
+        FadeCamera.Instance.FadeOutCanvas();
     }
 
     #endregion

@@ -7,7 +7,7 @@ using System.Collections;
 // Description	: This is where you write a summary of what the role of this file.
 //---------------------------------------------------------------------------------
 
-public class FadeCamera : MonoBehaviour
+public class FadeCamera : Singleton<FadeCamera>
 {
     #region Variables
     //====================================

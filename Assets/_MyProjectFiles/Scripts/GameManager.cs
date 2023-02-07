@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
@@ -14,6 +15,8 @@ using System.Collections.Generic;
 // 4. Generate other persistent systems
 //---------------------------------------------------------------------------------
 
+[System.Serializable] public class EventGameState : UnityEvent<GameManager.GameState, GameManager.GameState> { }
+
 public class GameManager : Singleton<GameManager>
 {
     #region Variables
@@ -27,7 +30,7 @@ public class GameManager : Singleton<GameManager>
         PAUSED
     }
     public GameObject[] systemPrefabs;
-
+    public EventGameState OnGameStateChanged;
     // =============================
     // [SerializedField] Private
     // =============================
@@ -39,7 +42,6 @@ public class GameManager : Singleton<GameManager>
     private string currentLevelName = string.Empty;
     private List<GameObject> instancedSystemPrefabs;
     private GameState currentGameState = GameState.PREGAME;
-
     #endregion
 
     #region Unity Methods
@@ -99,6 +101,7 @@ public class GameManager : Singleton<GameManager>
     /// <param name="state"></param>
     private void UpdateState(GameState state)
     {
+        GameState previousGameState = currentGameState;
         currentGameState = state;
 
         switch (currentGameState)
@@ -112,6 +115,9 @@ public class GameManager : Singleton<GameManager>
             default:
                 break;
         }
+
+        // dispatch message
+        OnGameStateChanged.Invoke(currentGameState, previousGameState);
     }
 
     #endregion
@@ -135,7 +141,7 @@ public class GameManager : Singleton<GameManager>
             UpdateState(GameState.RUNNING);
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(currentLevelName));
         }
-        
+
         Debug.Log("Load Completed");
     }
 
@@ -176,7 +182,8 @@ public class GameManager : Singleton<GameManager>
     /// <param name="levelName"></param>
     public void UnloadLevel(string levelName)
     {
-        AsyncOperation ao = SceneManager.LoadSceneAsync(levelName);
+        AsyncOperation ao = SceneManager.UnloadSceneAsync(levelName);
+        
         ao.completed += onUnloadOperationComplete;
     }
 
@@ -185,6 +192,11 @@ public class GameManager : Singleton<GameManager>
         LoadLevel("Menu_Scene");
     }
 
+    public void TogglePause()
+    {
+        // check to see if GameState is PAUSED and update the state
+        UpdateState(currentGameState == GameState.RUNNING ? GameState.PAUSED : GameState.RUNNING);
+    }
     #endregion
 
     #endregion

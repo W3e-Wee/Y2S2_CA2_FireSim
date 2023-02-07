@@ -15,8 +15,8 @@ public class MainMenu : MonoBehaviour
     // Public
     //===================
     [Header("Transition Timing")]
-    [Range(0, 5)] public float transitionInTime;
-    [Range(0, 5)] public float transitionOutTime;
+    [Range(1, 5)] public float transitionInTime;
+    [Range(1, 5)] public float transitionOutTime;
 
     //====================================
     // [SerializeField] Private
@@ -26,25 +26,28 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private CanvasGroup settingCanvasGroup;
 
     [Space]
-    [SerializeField] private FadeCamera fadeCam;
+    [SerializeField] private string unloadLevelName;
     //===================
     // Private
     //===================
     #endregion
 
     #region Unity Methods
-    protected void Awake()
-    {
-
-    }
-
     protected void Start()
     {
-
+        GameManager.Instance.OnGameStateChanged.AddListener(HandleGameStateChanged);
     }
     #endregion
 
     #region Own Methods
+    private void HandleGameStateChanged(GameManager.GameState currentState, GameManager.GameState previousState)
+    {
+        // check if current state is RUNNING and prev state is PREGAME
+        if (previousState == GameManager.GameState.PREGAME && currentState == GameManager.GameState.RUNNING)
+        {
+            return;
+        }
+    }
 
     #region Decal & Splash Methods
     public void ShowDecalAndMenu()
@@ -107,17 +110,20 @@ public class MainMenu : MonoBehaviour
         loadSq
         .append(() =>
         {
-            fadeCam.FadeInCanvas();
+            FadeCamera.Instance.FadeInCanvas();
+        })
+        .append(2f)
+        .append(() => {
+            GameManager.Instance.UnloadLevel(unloadLevelName);
         })
         .append(2f)
         .append(() =>
         {
             GameManager.Instance.LoadLevel(levelName);
         })
-        .append(2f)
-        .append(() =>
-        {
-            fadeCam.FadeOutCanvas();
+        .append(1f)
+        .append(() => {
+            FadeCamera.Instance.FadeOutCanvas();
             UIManager.Instance.SetMenuActive(false);
         });
     }
