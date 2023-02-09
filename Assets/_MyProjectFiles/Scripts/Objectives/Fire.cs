@@ -18,7 +18,7 @@ public class Fire : MonoBehaviour
     [SerializeField] private ParticleSystem[] fireParticleSystem = new ParticleSystem[0];
     [SerializeField] private ParticleSystem steamParticles;
     [SerializeField] private Transform steamEmissionPoint;
-    
+
     [Header("Fire Regen Settings")]
     [SerializeField, Range(0f, 5f)] private float fireRegenRate = .2f;
     [SerializeField, Range(0f, 5f)] private float fireRegenDelay = 2.5f;
@@ -37,16 +37,13 @@ public class Fire : MonoBehaviour
     #region Unity Methods
     protected void Start()
     {
-		// Get TaskManager component
-        // task = GameObject.FindGameObjectWithTag("TaskManager").GetComponent<TaskManager>();
-
-		// Set progress bar
+        // Set progress bar
         // barFill.fillAmount = fireIntensity;
-		
-		// Populate variable
+
+        // Populate variable
         startIntensities = new float[fireParticleSystem.Length];
 
-		// Sets the start intensity for each fireParticle in scene
+        // Sets the start intensity for each fireParticle in scene
         for (int i = 0; i < fireParticleSystem.Length; i++)
         {
             startIntensities[i] = fireParticleSystem[i].emission.rateOverTime.constant;
@@ -54,14 +51,14 @@ public class Fire : MonoBehaviour
     }
     protected void Update()
     {
-		// Checks if fire still has intensity
+        // Checks if fire still has intensity
         if ((isLit && fireIntensity < 1.0f) && (Time.time - timeLastExtinguished >= fireRegenDelay))
         {
             fireIntensity += fireRegenRate * Time.deltaTime;
-			
-			// Set progress bar
+
+            // Set progress bar
             // barFill.fillAmount = fireIntensity;
-            
+
             // regen fire
             ChangeIntensity();
         }// End of IF check
@@ -69,16 +66,16 @@ public class Fire : MonoBehaviour
     #endregion
 
     #region Own Methods
-	// ===================
-	// Public
-	// ===================
+    // ===================
+    // Public
+    // ===================
 
-	/// <summary>
-	/// Called to manage fire particle's state
-	/// </summary>
-	/// <param name="amount"></param>
-	/// <returns>Returns true when intensity hits 0</returns>
-    public bool FireExtinguishing(float amount)
+    /// <summary>
+    /// Called to manage fire particle's state
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <returns>Returns true when intensity hits 0</returns>
+    public void FireExtinguishing(float amount)
     {
         // decrease fire intensity
         fireIntensity -= amount;
@@ -92,7 +89,7 @@ public class Fire : MonoBehaviour
         // Decrease fire particles
         ChangeIntensity();
 
-		// Fire gone
+        // Fire gone
         if (fireIntensity <= 0)
         {
             // Set isLit to false;
@@ -105,19 +102,20 @@ public class Fire : MonoBehaviour
             // Show steam particle
             EmitSteam();
 
-            return true;
+            // update managers and UI
+
+            return;
         }
 
-
-        return false;
+        return;
     }// End of FireExtinguishing
 
-	/// <summary>
-	/// Decreases the fire particle's rate over time
-	/// </summary>
+    /// <summary>
+    /// Decreases the fire particle's rate over time
+    /// </summary>
     public void ChangeIntensity()
     {
-       // decrease fire particle
+        // decrease fire particle
         for (int i = 0; i < fireParticleSystem.Length; i++)
         {
             var emission = fireParticleSystem[i].emission;
@@ -126,16 +124,16 @@ public class Fire : MonoBehaviour
 
     }// End of ChangeIntensity
 
-	// ===================
-	// Private
-	// ===================
+    // ===================
+    // Private
+    // ===================
 
-	/// <summary>
-	/// Called when particle rate over time is 0
-	/// </summary>
+    /// <summary>
+    /// Called when particle rate over time is 0
+    /// </summary>
     private void EmitSteam()
     {
-		// Play steam particle at center of fire
+        // Play steam particle at center of fire
         var emitParams = new ParticleSystem.EmitParams();
         emitParams.position = steamEmissionPoint.position;
         steamParticles.Emit(emitParams, 1);
