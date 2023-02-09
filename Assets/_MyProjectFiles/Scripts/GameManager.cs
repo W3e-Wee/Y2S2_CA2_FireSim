@@ -1,80 +1,203 @@
 using UnityEngine;
-using System.Collections;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 //---------------------------------------------------------------------------------
 // Author		: Wee Heng
-// Date  		: YYYY-MM-DD
-// Description	: This is where you write a summary of what the role of this file.
+// Date  		: 2023-02-02
+// Description	: Script for Game Manager functionalities.
+//---------------------------------------------------------------------------------
+// Game Manager Functionalities
+// 1. Load and Unload levels
+// 2. Keep track of what level the game is in
+// 3. Keep track of game state
+// 4. Generate other persistent systems
 //---------------------------------------------------------------------------------
 
-public class GameManager : MonoBehaviour 
+[System.Serializable] public class EventGameState : UnityEvent<GameManager.GameState, GameManager.GameState> { }
+
+public class GameManager : Singleton<GameManager>
 {
-	#region Variables
-	//===================
-	// Public Variables
-	//===================
-	
-	//====================================
-	// [SerializeField] Private Variables
-	//====================================
+    #region Variables
+    // =============================
+    // Public
+    // =============================
+    public enum GameState
+    {
+        PREGAME,
+        RUNNING,
+        PAUSED
+    }
+    public GameObject[] systemPrefabs;
+    public EventGameState OnGameStateChanged;
+    // =============================
+    // [SerializedField] Private
+    // =============================
+    [SerializeField] private List<AsyncOperation> loadOperations;
 
+    // =============================
+    // Private
+    // =============================
+    private string currentLevelName = string.Empty;
+    private List<GameObject> instancedSystemPrefabs;
+    private GameState currentGameState = GameState.PREGAME;
+    #endregion
 
-	//===================
-	// Private Variables
-	//===================
+    #region Unity Methods
+    private void Start()
+    {
+        // prevent GameManager from being destroyed
+        DontDestroyOnLoad(gameObject);
 
-	#endregion
-	
-	#region Unity Methods
-	//---------------------------------------------------------------------------------
-	// protected mono methods. 
-	// Unity5: Rigidbody, Collider, Audio and other Components need to use GetComponent<name>()
-	//---------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------
-	// Awake is when the file is just loaded ... for other function blah blah
-	//---------------------------------------------------------------------------------
-	protected void Awake() 
-	{
-	}
+        loadOperations = new List<AsyncOperation>();
+        instancedSystemPrefabs = new List<GameObject>();
 
-	//---------------------------------------------------------------------------------
-	// Start is when blah blah
-	//---------------------------------------------------------------------------------
-	protected void Start() 
-	{
-	}
-	
-	//---------------------------------------------------------------------------------
-	// XXX is when blah blah
-	//---------------------------------------------------------------------------------
-	protected void Update() 
-	{
-	}
+        InstantiateSystemPrefabs();
+    }
 
-	//---------------------------------------------------------------------------------
-	// FixedUpdate for Physics update
-	//---------------------------------------------------------------------------------
-	protected void FixedUpdate() 
-	{
-	}
-	
-	//---------------------------------------------------------------------------------
-	// XXX is when blah blah
-	//---------------------------------------------------------------------------------
-	protected void OnEnable()
-	{
-	}
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
 
-	//---------------------------------------------------------------------------------
-	// XXX is when blah blah
-	//---------------------------------------------------------------------------------
-	protected void OnDestroy()
-	{
-	}
-	#endregion
+        for (int i = 0; i < instancedSystemPrefabs.Count; i++)
+        {
+            Destroy(instancedSystemPrefabs[i]);
+        }
 
-	#region Own Methods
+        instancedSystemPrefabs.Clear();
+    }
+    #endregion
 
-	#endregion
+    #region Own Methods
+    /// <summary>
+    /// Called to add prefabs to list
+    /// </summary>
+    private void InstantiateSystemPrefabs()
+    {
+        GameObject prefabInstance;
 
+        for (int i = 0; i < systemPrefabs.Length; i++)
+        {
+            prefabInstance = Instantiate(systemPrefabs[i]);
+            instancedSystemPrefabs.Add(prefabInstance);
+        }
+    }
+    #region Game State Methods
+
+    /// <summary>
+    /// Used to change GameState in other scripts
+    /// </summary>
+    /// <value></value>
+    public GameState CurrentGameState
+    {
+        get { return currentGameState; }
+        set { currentGameState = value; }
+    }
+
+    /// <summary>
+    /// Triggers actions/events related to GameState
+    /// </summary>
+    /// <param name="state"></param>
+    private void UpdateState(GameState state)
+    {
+        GameState previousGameState = currentGameState;
+        currentGameState = state;
+
+        switch (currentGameState)
+        {
+            case GameState.PREGAME:
+                break;
+            case GameState.RUNNING:
+                break;
+            case GameState.PAUSED:
+                break;
+            default:
+                break;
+        }
+
+        // dispatch message
+        OnGameStateChanged.Invoke(currentGameState, previousGameState);
+    }
+
+    #endregion
+    #region Scene Management Methods
+
+    /// <summary>
+    /// Trigger actions/events when new scene is loaded
+    /// </summary>
+    /// <param name="ao"></param>
+    private void onLoadOperationComplete(AsyncOperation ao)
+    {
+        // check to see if this methods being called elsewhere
+        if (loadOperations.Contains(ao))
+        {
+            loadOperations.Remove(ao);
+        }
+
+        // check if there are any loadOperations running
+        if (loadOperations.Count == 0)
+        {
+            UpdateState(GameState.RUNNING);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(currentLevelName));
+        }
+
+        Debug.Log("Load Completed");
+    }
+
+    /// <summary>
+    /// Triggers actions/events when a scene is unloaded
+    /// </summary>
+    /// <param name="ao"></param>
+    private void onUnloadOperationComplete(AsyncOperation ao)
+    {
+        Debug.Log("Unload Completed");
+    }
+
+    /// <summary>
+    ///  Loads a new scene with matching levelName
+    /// </summary>
+    /// <param name="levelName"></param>
+    public void LoadLevel(string levelName)
+    {
+        // load scene and save AsyncOperation (ao)
+        AsyncOperation ao = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Additive);
+
+        // check for any problems
+        if (ao == null)
+        {
+            Debug.LogError("[GameManager] An error occured when loading scene, " + currentLevelName);
+            return;
+        }
+
+        // when no problem
+        ao.completed += onLoadOperationComplete;
+
+        currentLevelName = levelName;
+    }
+
+    /// <summary>
+    /// Unloads a scene with matching levelName
+    /// </summary>
+    /// <param name="levelName"></param>
+    public void UnloadLevel(string levelName)
+    {
+        AsyncOperation ao = SceneManager.UnloadSceneAsync(levelName);
+        
+        ao.completed += onUnloadOperationComplete;
+    }
+
+    public void StartGame()
+    {
+        LoadLevel("Menu_Scene");
+    }
+
+    public void TogglePause()
+    {
+        // check to see if GameState is PAUSED and update the state
+        UpdateState(currentGameState == GameState.RUNNING ? GameState.PAUSED : GameState.RUNNING);
+    }
+    #endregion
+
+    #endregion
 }
