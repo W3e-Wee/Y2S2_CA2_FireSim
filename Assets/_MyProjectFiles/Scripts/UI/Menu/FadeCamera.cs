@@ -65,12 +65,12 @@ public class FadeCamera : Singleton<FadeCamera>
 
     private void OnFadeInComplete()
     {
-        Debug.Log("FADE IN COMPLETE");
+        
     }
 
     private void OnFadeOutComplete()
     {
-        Debug.Log("FADE OUT COMPLETE");
+        
     }
     #endregion
 

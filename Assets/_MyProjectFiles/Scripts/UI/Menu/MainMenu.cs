@@ -57,9 +57,10 @@ public class MainMenu : MonoBehaviour
     }
     #endregion
 
-    #region Own Methods
+    #region Handler Methods
     private void HandleGameStateChanged(GameManager.GameState currentState, GameManager.GameState previousState)
     {
+        // Debug.Log("Previous State: " + previousState + ", Current State: " + currentState);
         // check if current state is RUNNING and prev state is PREGAME
         if (previousState == GameManager.GameState.PREGAME && currentState == GameManager.GameState.RUNNING)
         {
@@ -67,6 +68,7 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    #endregion
     #region Decal & Splash Methods
     private void StartSequence()
     {
@@ -99,15 +101,36 @@ public class MainMenu : MonoBehaviour
     #endregion
 
     #region Menu Methods
-    public void ExitGame()
+    public void LoadNextLevel(string levelName)
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
-        Debug.Log("Exiting Application...");
-        Application.Quit();
-    }
+        // check for players last played level
 
+        var loadSq = LeanTween.sequence();
+
+        loadSq
+        .append(() =>
+        {
+            LeanTween.alphaCanvas(menuCanvasGroup, 0f, transitionOutTime);
+        })
+        .append(1f)
+        .append(() =>
+        {
+            FadeCamera.Instance.FadeInCanvas();
+        })
+        .append(2f)
+        .append(() =>
+        {
+            // unload previous level and stop the music
+            GameManager.Instance.UnloadLevel(unloadLevelName);
+            AudioManager.Instance.StopMusic("Menu Theme");
+        })
+        .append(2f)
+        .append(() =>
+        {
+            // load next level
+            GameManager.Instance.LoadLevel(levelName);
+        });
+    }
     public void ShowSetting()
     {
         var settingSq = LeanTween.sequence();
@@ -142,46 +165,13 @@ public class MainMenu : MonoBehaviour
         });
     }
 
-    public void LoadNextLevel(string levelName)
+    public void ExitGame()
     {
-        var loadSq = LeanTween.sequence();
-
-        loadSq
-        .append(() =>
-        {
-            LeanTween.alphaCanvas(menuCanvasGroup, 0f, transitionOutTime);
-        })
-        .append(1f)
-        .append(() =>
-        {
-            FadeCamera.Instance.FadeInCanvas();
-        })
-        .append(2f)
-        .append(() =>
-        {
-            GameManager.Instance.UnloadLevel(unloadLevelName);
-            AudioManager.Instance.StopMusic("Menu Theme");
-        })
-        .append(2f)
-        .append(() =>
-        {
-            GameManager.Instance.LoadLevel(levelName);
-        })
-        .append(1f)
-        .append(() =>
-        {
-            FadeCamera.Instance.FadeOutCanvas();
-            UIManager.Instance.SetMenuActive(false);
-            // Set audio
-            AudioManager.Instance.PlayMusic("Level 1 Theme");
-        });
+        GameManager.Instance.QuitGame();
     }
-
     public void ToggleMenuPanel(bool isActive)
     {
         menuPanel.SetActive(isActive);
     }
-    #endregion
-
     #endregion
 }
