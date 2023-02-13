@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
@@ -15,8 +14,6 @@ using System.Collections.Generic;
 // 4. Generate other persistent systems
 //---------------------------------------------------------------------------------
 
-[System.Serializable] public class EventGameState : UnityEvent<GameManager.GameState, GameManager.GameState> { }
-
 public class GameManager : Singleton<GameManager>
 {
     #region Variables
@@ -30,7 +27,10 @@ public class GameManager : Singleton<GameManager>
         PAUSED
     }
     public GameObject[] systemPrefabs;
-    public EventGameState OnGameStateChanged;
+
+    [Header("Events")]
+    public Events.EventGameState OnGameStateChanged;
+
     // =============================
     // [SerializedField] Private
     // =============================
@@ -69,7 +69,6 @@ public class GameManager : Singleton<GameManager>
     }
     #endregion
 
-    #region Own Methods
     /// <summary>
     /// Called to add prefabs to list
     /// </summary>
@@ -83,6 +82,7 @@ public class GameManager : Singleton<GameManager>
             instancedSystemPrefabs.Add(prefabInstance);
         }
     }
+
     #region Game State Methods
 
     /// <summary>
@@ -119,15 +119,14 @@ public class GameManager : Singleton<GameManager>
         // dispatch message
         OnGameStateChanged.Invoke(currentGameState, previousGameState);
     }
-
     #endregion
-    #region Scene Management Methods
+    #region Scene Loading Methods
 
     /// <summary>
     /// Trigger actions/events when new scene is loaded
     /// </summary>
     /// <param name="ao"></param>
-    private void onLoadOperationComplete(AsyncOperation ao)
+    private void OnLoadOperationComplete(AsyncOperation ao)
     {
         // check to see if this methods being called elsewhere
         if (loadOperations.Contains(ao))
@@ -149,7 +148,7 @@ public class GameManager : Singleton<GameManager>
     /// Triggers actions/events when a scene is unloaded
     /// </summary>
     /// <param name="ao"></param>
-    private void onUnloadOperationComplete(AsyncOperation ao)
+    private void OnUnloadOperationComplete(AsyncOperation ao)
     {
         Debug.Log("Unload Completed");
     }
@@ -171,7 +170,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         // when no problem
-        ao.completed += onLoadOperationComplete;
+        ao.completed += OnLoadOperationComplete;
 
         currentLevelName = levelName;
     }
@@ -183,10 +182,12 @@ public class GameManager : Singleton<GameManager>
     public void UnloadLevel(string levelName)
     {
         AsyncOperation ao = SceneManager.UnloadSceneAsync(levelName);
-        
-        ao.completed += onUnloadOperationComplete;
-    }
 
+        ao.completed += OnUnloadOperationComplete;
+    }
+    #endregion
+
+    #region Game Methods
     public void StartGame()
     {
         LoadLevel("Menu_Scene");
@@ -197,7 +198,18 @@ public class GameManager : Singleton<GameManager>
         // check to see if GameState is PAUSED and update the state
         UpdateState(currentGameState == GameState.RUNNING ? GameState.PAUSED : GameState.RUNNING);
     }
-    #endregion
+    public void RestartGame()
+    {
+        UpdateState(GameState.PREGAME);
+    }
 
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Debug.Log("Exiting Application...");
+        Application.Quit();
+    }
     #endregion
 }

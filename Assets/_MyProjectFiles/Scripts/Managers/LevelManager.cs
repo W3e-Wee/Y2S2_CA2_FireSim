@@ -12,62 +12,51 @@ using System.Collections.Generic;
 // 2. Keep track of win/lose
 // 3. Interact with other managers (i.e. UIManager, GameManager)
 //---------------------------------------------------------------------------------
-
-[System.Serializable]
-public class FireSpawns
-{
-    public GameObject firePrefab;
-    public Vector3 spawnPoint;
-    public bool isExtinguished;
-}
-
-[System.Serializable]
-public class Walls
-{
-    public GameObject wallPrefab;
-    public bool isFixed;
-}
-
 public class LevelManager : MonoBehaviour
 {
     #region Variables
-    //===================
-    // Public Variables
-    //===================
     public string currentLevelName;
-    [Header("Level Objects")]
-    public FireSpawns[] fires;
-    public Walls[] damageWalls;
+    private PlayerCanvas playerCanvas;
     #endregion
 
     #region Unity Methods
     protected void Start()
     {
-        // display current scene on start
-        Scene currentScene = SceneManager.GetActiveScene();
-        currentLevelName = currentScene.name;
-
-        // get all fire and walls in scene
-        // fires = GameObject.FindObjectsOfType<Fire>();
-        // damageWalls = GameObject.FindObjectsOfType<Construct>(); 
+        CheckGameStateChanged();
+        playerCanvas = FindObjectOfType<PlayerCanvas>();
     }
-
     #endregion
-
     #region Own Methods
-	private void SetUpFire()
-	{
-		if(fires.Length == 0)
-		{
-			Debug.LogWarning("[LevelManager] - No Fires in " + currentLevelName);
-			return;
-		}
+    private void CheckGameStateChanged()
+    {
+        // get current level name
+        currentLevelName = SceneManager.GetActiveScene().name;
 
-		foreach(FireSpawns f in fires)
-		{
-			
-		}
-	}
+        // check to see if game is in a RUNNING state
+        if (GameManager.Instance.CurrentGameState == GameManager.GameState.RUNNING)
+        {
+            FadeCamera.Instance.FadeOutCanvas();
+            UIManager.Instance.SetMenuActive(false);
+
+            switch (currentLevelName)
+            {
+                case "MainLevel_01_Scene":
+                    AudioManager.Instance.PlayMusic("Level 1 Theme");
+                    break;
+                case "MainLevel_02_Scene":
+                    break;
+                default:
+                    Debug.LogError("[LevelManager] - Audio for " + currentLevelName + " not found");
+                    break;
+            }
+
+            return;
+        }
+    }
+    
+    private void ToggleGameOver()
+    {
+        playerCanvas.ShowGameOver(currentLevelName);
+    }
     #endregion
-
 }

@@ -10,17 +10,8 @@ using System.Collections;
 public class UIManager : Singleton<UIManager>
 {
     #region Variables
-    //===================
-    // Public Variables
-    //===================
-
-    //====================================
-    // [SerializeField] Private Variables
-    //====================================
     [SerializeField] private MainMenu mainMenu;
-    //===================
-    // Private Variables
-    //===================
+
     #endregion
 
     #region Unity Methods

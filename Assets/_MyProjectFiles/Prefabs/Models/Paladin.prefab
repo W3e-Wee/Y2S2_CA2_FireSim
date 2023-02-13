@@ -1195,7 +1195,8 @@ GameObject:
   - component: {fileID: 4170745778678283443}
   - component: {fileID: 4170745778678283442}
   - component: {fileID: 4170745778678283453}
-  m_Layer: 0
+  - component: {fileID: 4926982983314404302}
+  m_Layer: 10
   m_Name: Paladin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1279,7 +1280,7 @@ MonoBehaviour:
   wayPoints: []
   agent: {fileID: 0}
   agentSpeed: 4
-  waitTime: 2
+  waitTime: 10
   noticeRange: 10
   attackRange: 2.5
 --- !u!114 &4170745778678283453
@@ -1296,6 +1297,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 100
   isDead: 0
+--- !u!136 &4926982983314404302
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3828093638447530478}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &3955417955822002869
 GameObject:
   m_ObjectHideFlags: 0

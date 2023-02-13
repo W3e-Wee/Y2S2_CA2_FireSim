@@ -13,9 +13,12 @@ public class Player : MonoBehaviour
     //====================================
     // [SerializeField] Private Variables
     //====================================
+    [Header("Player Stats")]
     [SerializeField] private int currentHealth;
-	[SerializeField] private bool isPlayerDead;
-	[SerializeField] private int dmgTaken = 10;
+    [SerializeField] private int dmgTaken = 10;
+    
+    [Space]
+    public bool isPlayerDead;
     //===================
     // Private Variables
     //===================
@@ -32,22 +35,23 @@ public class Player : MonoBehaviour
     #region Own Methods
     public bool TakeDmg()
     {
-		currentHealth -= dmgTaken;
-		
-		if(currentHealth <= 0)
-		{
-			isPlayerDead = true;
-			Die();
-			return isPlayerDead;
-		}
+        currentHealth -= dmgTaken;
 
-		return isPlayerDead;
+        if (currentHealth <= 0)
+        {
+            isPlayerDead = true;
+            Die();
+            return isPlayerDead;
+        }
+
+        return isPlayerDead;
     }
 
-	private void Die()
-	{
-		this.GetComponent<CapsuleCollider>().enabled = false;
-	}
+    private void Die()
+    {
+        this.GetComponent<CapsuleCollider>().enabled = false;
+        // play Gameover canvas
+    }
     #endregion
 
 }
