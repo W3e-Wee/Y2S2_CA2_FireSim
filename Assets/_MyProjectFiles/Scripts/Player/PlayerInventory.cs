@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 using System.Collections;
 
 //---------------------------------------------------------------------------------
@@ -7,21 +8,50 @@ using System.Collections;
 // Description	: Script to spawn gameobject onto Player's hands
 //---------------------------------------------------------------------------------
 
-public class PlayerInventory : MonoBehaviour 
+public class PlayerInventory : MonoBehaviour
 {
-	#region Variables
-	//===================
-	// Public Variables
-	//===================
-	public GameObject itemPrefab;
+    #region Variables
+    //===================
+    // Public Variables
+    //===================
+    public GameObject itemPrefab;
+    public int maxSpawn;
+    private int counter;
 
-	#endregion
+	[Header("UI")]
+	[SerializeField] private TextMeshProUGUI maxSpawnCountText;
+	[SerializeField] private TextMeshProUGUI currentSpawnCountText;
+    #endregion
 
-	#region Own Methods
-	public void SpawnGameObjectOnHand()
+	#region Unity Methods
+	protected void Start()
 	{
-		Instantiate(itemPrefab, transform.position, Quaternion.identity);
+		counter = 0;
+	}
+
+	protected void Update()
+	{
+		// update the UI
+		maxSpawnCountText.text = maxSpawn.ToString();
+		currentSpawnCountText.text = counter.ToString();
 	}
 	#endregion
+
+    #region Own Methods
+    public void SpawnGameObjectOnHand()
+    {
+        if (counter == maxSpawn)
+        {
+			Debug.Log("[PlayerInventory] - Reached max spwan count");
+            return;
+        }
+        else
+        {
+            Instantiate(itemPrefab, transform.position, Quaternion.identity);
+            counter++;
+        }
+
+    }
+    #endregion
 
 }

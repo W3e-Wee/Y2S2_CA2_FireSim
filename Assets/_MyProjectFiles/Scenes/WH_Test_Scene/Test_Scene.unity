@@ -2539,13 +2539,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 335094245986140954, guid: b8f7ad47fe609414898724d3ed36648a, type: 3}
+      propertyPath: maxSpawn
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 335094245986140954, guid: b8f7ad47fe609414898724d3ed36648a, type: 3}
       propertyPath: itemPrefab
       value: 
-      objectReference: {fileID: 1919825621}
+      objectReference: {fileID: 1180428221}
+    - target: {fileID: 1265597139136732237, guid: b8f7ad47fe609414898724d3ed36648a, type: 3}
+      propertyPath: maxSpawn
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1265597139136732237, guid: b8f7ad47fe609414898724d3ed36648a, type: 3}
       propertyPath: itemPrefab
       value: 
-      objectReference: {fileID: 1919825621}
+      objectReference: {fileID: 530274491}
     - target: {fileID: 3875805307172416448, guid: b8f7ad47fe609414898724d3ed36648a, type: 3}
       propertyPath: m_Name
       value: XR Rig_w_TP
@@ -2597,6 +2605,10 @@ PrefabInstance:
     - target: {fileID: 5475806002252505308, guid: b8f7ad47fe609414898724d3ed36648a, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6375897317584127956, guid: b8f7ad47fe609414898724d3ed36648a, type: 3}
+      propertyPath: maxSpawn
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6375897317584127956, guid: b8f7ad47fe609414898724d3ed36648a, type: 3}
       propertyPath: itemPrefab
