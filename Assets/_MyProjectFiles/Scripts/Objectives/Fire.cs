@@ -16,12 +16,15 @@ public class Fire : MonoBehaviour
     [Header("Fire Particle Settings")]
     [SerializeField, Range(0f, 1f)] private float fireIntensity = 1.0f;
     [SerializeField] private ParticleSystem[] fireParticleSystem = new ParticleSystem[0];
-    [SerializeField] private ParticleSystem steamParticles;
-    [SerializeField] private Transform steamEmissionPoint;
 
     [Header("Fire Regen Settings")]
     [SerializeField, Range(0f, 5f)] private float fireRegenRate = .2f;
     [SerializeField, Range(0f, 5f)] private float fireRegenDelay = 2.5f;
+
+    [Header("Steam Particle Setting")]
+    [SerializeField] private ParticleSystem steamParticles;
+    [SerializeField] private Transform steamEmissionPoint;
+
     [Space]
     [SerializeField] private Image barFill;
 
@@ -31,7 +34,7 @@ public class Fire : MonoBehaviour
     private float[] startIntensities = new float[0];
     private float timeLastExtinguished = 0f;
     private bool isLit = true;
-    private TaskManager task;
+    
     #endregion
 
     #region Unity Methods
