@@ -9776,7 +9776,7 @@ GameObject:
   - component: {fileID: 198020576693072572}
   - component: {fileID: 199197217824051864}
   m_Layer: 0
-  m_Name: Shower
+  m_Name: WaterParticle (TBC)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
