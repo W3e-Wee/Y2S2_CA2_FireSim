@@ -9745,6 +9745,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7262452511399528374, guid: acbd38ac3361a294183a7576fcf44098, type: 3}
   m_PrefabInstance: {fileID: 2126632565}
   m_PrefabAsset: {fileID: 0}
+
 --- !u!1 &2126632567 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7262452511824589010, guid: acbd38ac3361a294183a7576fcf44098, type: 3}
