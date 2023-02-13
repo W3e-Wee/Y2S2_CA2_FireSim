@@ -2086,9 +2086,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: Axe
       objectReference: {fileID: 0}
+    - target: {fileID: 4005028813634277869, guid: d0c4f180f05f3e2488dfc85694e6ac67, type: 3}
+      propertyPath: m_Mass
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4005028813634277869, guid: d0c4f180f05f3e2488dfc85694e6ac67, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4005028814452150274, guid: d0c4f180f05f3e2488dfc85694e6ac67, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70441604
+      objectReference: {fileID: 0}
+    - target: {fileID: 4005028814452150274, guid: d0c4f180f05f3e2488dfc85694e6ac67, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.06162845
+      objectReference: {fileID: 0}
+    - target: {fileID: 4005028814452150274, guid: d0c4f180f05f3e2488dfc85694e6ac67, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.06162845
+      objectReference: {fileID: 0}
+    - target: {fileID: 4005028814452150274, guid: d0c4f180f05f3e2488dfc85694e6ac67, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.70441604
+      objectReference: {fileID: 0}
+    - target: {fileID: 4005028814452150274, guid: d0c4f180f05f3e2488dfc85694e6ac67, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -10
+      objectReference: {fileID: 0}
     - target: {fileID: 4006545726594097971, guid: d0c4f180f05f3e2488dfc85694e6ac67, type: 3}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4006545726594097971, guid: d0c4f180f05f3e2488dfc85694e6ac67, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4006545726594097971, guid: d0c4f180f05f3e2488dfc85694e6ac67, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2506,6 +2538,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 335094245986140954, guid: b8f7ad47fe609414898724d3ed36648a, type: 3}
+      propertyPath: itemPrefab
+      value: 
+      objectReference: {fileID: 1919825621}
+    - target: {fileID: 1265597139136732237, guid: b8f7ad47fe609414898724d3ed36648a, type: 3}
+      propertyPath: itemPrefab
+      value: 
+      objectReference: {fileID: 1919825621}
     - target: {fileID: 3875805307172416448, guid: b8f7ad47fe609414898724d3ed36648a, type: 3}
       propertyPath: m_Name
       value: XR Rig_w_TP
@@ -2558,31 +2598,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6375897317584127956, guid: b8f7ad47fe609414898724d3ed36648a, type: 3}
+      propertyPath: itemPrefab
+      value: 
+      objectReference: {fileID: 1919825621}
     - target: {fileID: 7470644714950431736, guid: b8f7ad47fe609414898724d3ed36648a, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8f7ad47fe609414898724d3ed36648a, type: 3}
---- !u!1 &919132147762679092 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3828093638447530478, guid: aace37ff30bfbab479a49196e6b6d1ed, type: 3}
-  m_PrefabInstance: {fileID: 4170745779567217882}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &919132147762679099
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132147762679092}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &4170745779567217882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2727,10 +2752,6 @@ PrefabInstance:
       value: Paladin WProp J Nordstrom
       objectReference: {fileID: 0}
     - target: {fileID: 3828093638447530478, guid: aace37ff30bfbab479a49196e6b6d1ed, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3828093638447530478, guid: aace37ff30bfbab479a49196e6b6d1ed, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -2748,14 +2769,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4161856162369499718, guid: aace37ff30bfbab479a49196e6b6d1ed, type: 3}
       propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4170745778678283442, guid: aace37ff30bfbab479a49196e6b6d1ed, type: 3}
-      propertyPath: waitTime
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4170745778678283442, guid: aace37ff30bfbab479a49196e6b6d1ed, type: 3}
-      propertyPath: noticeRange
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4170745778678283443, guid: aace37ff30bfbab479a49196e6b6d1ed, type: 3}
