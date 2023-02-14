@@ -25,20 +25,9 @@ public class Construct : MonoBehaviour
 	[SerializeField] private Material dmgMaterial;
 	[SerializeField] private Renderer dmgWall;
 	[SerializeField] private float alphaColor = 0.3f;
-	[SerializeField] [Range(0, 1f)] private float intensity;
-	[SerializeField] private float repairSpeed = 0.003f;
-
-	//[SerializeField] private float redColor = 0f;
-	//[SerializeField] private float minus = 1f;
-
-	//[SerializeField] [Range(0f, 1f)] float lerpTime;
-	//[SerializeField] Color myColor;
 	//===================
 	// Private Variables
 	//===================
-	private Color colorEM;
-
-	//private float intensity;
 	// private TaskManager task;
 	#endregion
 	
@@ -54,8 +43,6 @@ public class Construct : MonoBehaviour
         Color color = dmgWall.material.color;
         color.a = alphaColor;
         dmgWall.material.color = color;
-
-		colorEM = dmgWall.material.GetColor("_EmissionColor");
     }
 	#endregion
 
@@ -75,15 +62,6 @@ public class Construct : MonoBehaviour
         color.a = repairAmount;
         dmgWall.material.color = color;
 
-        dmgWall.material.SetColor("_EmissionColor", colorEM * intensity);
-
-		print(colorEM);
-
-		if(intensity > 0)
-		{
-			intensity -= repairSpeed;
-        }
-
         if (repairAmount >= totalNeededRepair)
 		{
 
@@ -96,13 +74,10 @@ public class Construct : MonoBehaviour
 			// change the layer
 			int LayerIgnoreRaycast = LayerMask.NameToLayer("Ignore Raycast");
 			gameObject.layer = LayerIgnoreRaycast;
-            // show repaired wall
+			// show repaired wall
 
-            // check out objective
-            //task.UpdateConstructTaskList(1);
-
-            intensity = 0f;
-            dmgWall.material.SetColor("_EmissionColor", colorEM * intensity);
+			// check out objective
+			//task.UpdateConstructTaskList(1);
 
 			isRepaired = true;
 			//return true;

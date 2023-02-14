@@ -1015,13 +1015,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33430fd3363c4d439f9528eb0920ef1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalNeededRepair: 5
+  totalNeededRepair: 1
   repairAmount: 0
-  dmgMaterial: {fileID: 0}
+  dmgMaterial: {fileID: 2100000, guid: 52a06feed8196bf41abdaa68f24f968c, type: 2}
   dmgWall: {fileID: 257143575}
   alphaColor: 0.3
-  intensity: 1
-  repairSpeed: 0.0012
 --- !u!23 &257143575 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: cc26993ea539c3f45aaa6762eb5fc2a7, type: 3}
@@ -4842,7 +4840,7 @@ MonoBehaviour:
   rayRange: 100
   targetLayer: 9
   earthparticle: {fileID: 0}
-  wallRepairAmount: 1
+  wallRepairAmount: 0.5
   manaCount: 10
   manaDecreaseAmt: 0.1
 --- !u!1 &536561793
