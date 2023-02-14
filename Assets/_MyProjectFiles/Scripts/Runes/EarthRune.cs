@@ -24,6 +24,7 @@ public class EarthRune : MonoBehaviour
     [SerializeField, Range(0f, 20f)] private float wallRepairAmount = 0f;
     [SerializeField] private float manaCount = 100f;
     [SerializeField] private float manaDecreaseAmt = 0f;
+    [SerializeField] private GameObject gunArm;
 
     //===================
     // Private Variables
@@ -51,7 +52,13 @@ public class EarthRune : MonoBehaviour
             // Repair wall
             FixWall();
 
+            earthparticle.Play();
+
         }// End of IF check
+        else
+        {
+            earthparticle.Stop();
+        }
     }
     #endregion
 
@@ -63,7 +70,7 @@ public class EarthRune : MonoBehaviour
     private void FixWall()
     {
         // Fire a raycast
-        if (Physics.Raycast(rayFirePos.position, rayFirePos.forward, out hit, rayRange))
+        if (Physics.Raycast(rayFirePos.position, rayFirePos.forward, out hit, rayRange) && gunArm.activeSelf)
         {
             print("Gameobject hit: " + hit.transform.name);
             // Repair the wall
