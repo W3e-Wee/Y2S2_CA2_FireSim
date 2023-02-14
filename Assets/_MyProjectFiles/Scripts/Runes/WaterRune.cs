@@ -28,6 +28,7 @@ public class WaterRune : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float amountExtinguishedPerSec = .5f;
     [SerializeField] private float manaCount = 100f;
     [SerializeField] private float manaDecreaseAmt = 0f;
+    [SerializeField] private GameObject gunArm;
 
     //===================
     // Private Variables
@@ -53,7 +54,14 @@ public class WaterRune : MonoBehaviour
         {
             Extinguish();
 
+            // Play water particle here
+            waterParticle.Play();
         }// End of IF check
+        else
+        {
+            // Stop water particle here
+            waterParticle.Stop();
+        }
     }
     #endregion
     #region Own Methods
@@ -65,7 +73,7 @@ public class WaterRune : MonoBehaviour
     private void Extinguish()
     {
         // Fire raycast
-        if (Physics.Raycast(rayFirePos.position, rayFirePos.forward, out hit, rayRange, layerMask))
+        if (Physics.Raycast(rayFirePos.position, rayFirePos.forward, out hit, rayRange, layerMask) && gunArm.activeSelf)
         {
             // Check for Fire script in gameObject
             if (hit.collider.TryGetComponent(out Fire fire))
@@ -73,13 +81,12 @@ public class WaterRune : MonoBehaviour
                 // Extinguish fire
                 print("Extinguishing Fire");
 
-                // Play water particle here
 
                 fire.FireExtinguishing(amountExtinguishedPerSec * Time.deltaTime);
             }
             else
             {
-                // Stop water particle here
+
 
             }// End of IF...ELSE
 

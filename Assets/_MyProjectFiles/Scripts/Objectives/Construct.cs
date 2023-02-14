@@ -24,11 +24,14 @@ public class Construct : MonoBehaviour
 	[Space(20)]
 	[SerializeField] private Material dmgMaterial;
 	[SerializeField] private Renderer dmgWall;
-	[SerializeField] private float alphaColor = 0.3f;
+	//[SerializeField] private float alphaColor = 0.3f;
+	[SerializeField] [Range(0f, 1f)] private float intensity;
+	[SerializeField] private float repairSpeed;
 	//===================
 	// Private Variables
 	//===================
 	// private TaskManager task;
+	private Color color;
 	#endregion
 	
 	#region Unity Methods
@@ -40,9 +43,11 @@ public class Construct : MonoBehaviour
         // Set bar fill amount
         // barFill.fillAmount = repairAmount;
 
-        Color color = dmgWall.material.color;
-        color.a = alphaColor;
-        dmgWall.material.color = color;
+        //Color color = dmgWall.material.color;
+        //color.a = alphaColor;
+        //dmgWall.material.color = color;
+
+        color = dmgWall.material.GetColor("_EmissionColor");
     }
 	#endregion
 
@@ -56,11 +61,19 @@ public class Construct : MonoBehaviour
 
 		// Set progress bar 
 		double fillAmount = Math.Round((repairAmount / totalNeededRepair), 2);
-        // barFill.fillAmount = (float)fillAmount;
+		// barFill.fillAmount = (float)fillAmount;
 
-        Color color = dmgWall.material.color;
-        color.a = repairAmount;
-        dmgWall.material.color = color;
+		//Color color = dmgWall.material.color;
+		//color.a = repairAmount;
+		//dmgWall.material.color = color;
+
+		dmgWall.material.SetColor("_EmissionColor", color * intensity);
+		print(color);
+
+        if (intensity > 0)
+        {
+            intensity -= repairSpeed;
+        }
 
         if (repairAmount >= totalNeededRepair)
 		{
@@ -75,6 +88,8 @@ public class Construct : MonoBehaviour
 			int LayerIgnoreRaycast = LayerMask.NameToLayer("Ignore Raycast");
 			gameObject.layer = LayerIgnoreRaycast;
 			// show repaired wall
+			intensity = 0f;
+			dmgWall.material.SetColor("_EmissionColor", color * intensity);
 
 			// check out objective
 			//task.UpdateConstructTaskList(1);
