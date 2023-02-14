@@ -21,7 +21,7 @@ public class EarthRune : MonoBehaviour
 
     [Header("Rune Setting")]
     [SerializeField] private ParticleSystem earthparticle;
-    [SerializeField, Range(0f, 20f)] private float wallRepairAmount = 1f;
+    [SerializeField, Range(0f, 20f)] private float wallRepairAmount = 0f;
     [SerializeField] private float manaCount = 100f;
     [SerializeField] private float manaDecreaseAmt = 0f;
 
