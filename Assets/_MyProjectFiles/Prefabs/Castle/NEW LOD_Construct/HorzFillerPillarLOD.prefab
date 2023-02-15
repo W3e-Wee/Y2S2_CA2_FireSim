@@ -1,5 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2019516033171601771
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2441473355415137369}
+  - component: {fileID: 7254280235782218223}
+  m_Layer: 0
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2441473355415137369
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019516033171601771}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6458146617064639640}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7254280235782218223
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019516033171601771}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.0204315, y: 10, z: 0.7927363}
+  m_Center: {x: 0.00014519691, y: 0, z: 1.6036319}
 --- !u!1 &6458146617064639638
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,6 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6458146617064639640}
   - component: {fileID: 6458146617064639641}
+  - component: {fileID: 1314374427440569477}
   m_Layer: 0
   m_Name: HorzFillerPillarLOD
   m_TagString: Untagged
@@ -29,6 +75,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2441473355415137369}
   - {fileID: 6779407676645507160}
   - {fileID: 6779407675851495120}
   m_Father: {fileID: 0}
@@ -61,6 +108,19 @@ LODGroup:
     renderers:
     - renderer: {fileID: 5647064784079728063}
   m_Enabled: 1
+--- !u!65 &1314374427440569477
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6458146617064639638}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.0000014, y: 10, z: 2.2044578}
+  m_Center: {x: -0.00000071525574, y: 0, z: 0.10222936}
 --- !u!1001 &6458146616581711795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70,7 +130,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d78c222f3b557bf45a2f88c96c4289d2, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d78c222f3b557bf45a2f88c96c4289d2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -145,7 +205,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 2d3d361e880219a4c850a49f75177526, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2d3d361e880219a4c850a49f75177526, type: 3}
       propertyPath: m_LocalPosition.x
