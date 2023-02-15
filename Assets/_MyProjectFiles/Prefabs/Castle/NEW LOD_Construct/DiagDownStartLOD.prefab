@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 212883839499590801}
   - component: {fileID: 212883839499590800}
+  - component: {fileID: 2457199420225186499}
   m_Layer: 0
   m_Name: DiagDownStartLOD
   m_TagString: Untagged
@@ -61,6 +62,20 @@ LODGroup:
     renderers:
     - renderer: {fileID: 1528344358729124692}
   m_Enabled: 1
+--- !u!64 &2457199420225186499
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 212883839499590803}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -64834744929897409, guid: 29025add660881141be9aee0cb13dff1, type: 3}
 --- !u!1001 &212883838018591953
 PrefabInstance:
   m_ObjectHideFlags: 0
