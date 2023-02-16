@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using TMPro;
 
 //---------------------------------------------------------------------------------
 // Author		: Wee Heng
@@ -32,9 +33,17 @@ public class LevelManager : MonoBehaviour
     private Debris[] debris;
 
     // Enemies
-    private List<EnemyObject> enemyList;
+    public List<EnemyObject> enemyList;
     private EnemyStats[] enemies;
 
+    [Header("Task Tracking")]
+    public List<TaskItem> taskList;
+
+    [Header("Timer Setting")]
+    [SerializeField] private float timeLeft = 60f;
+    [SerializeField] private bool timerOn;
+    [SerializeField] private TextMeshProUGUI timeText;
+    
     #endregion
 
     // =======================
@@ -60,7 +69,28 @@ public class LevelManager : MonoBehaviour
         GetAllDamagedWallsInScene();
         GetAllDebrisInScene();
         GetEnemiesInScene();
+
+        // Populate Task 
+        PopulateTasks();
     }
+
+    protected void Update()
+    {
+        // update timer
+        if (timerOn)
+        {
+            timeLeft -= Time.deltaTime;
+            UpdateTimer(timeLeft);
+
+            // if timer hits 0
+            if (timeLeft <= 0)
+            {
+                timerOn = false;
+                ToggleGameOver();
+            }
+        }
+    }
+
     #endregion
 
     #region Level Methods
@@ -288,7 +318,7 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     #region Enemy Methods
-    
+
     /// <summary>
     /// Adds each enemy in the scene to a List of EnemyObject
     /// </summary>
@@ -316,7 +346,7 @@ public class LevelManager : MonoBehaviour
                 // Add to list
                 enemyList.Add(enemyObj);
             }
-            catch(System.Exception e)
+            catch (System.Exception e)
             {
                 Debug.LogError("[LevelManager] - An error occured when populating Enemy List: " + e.Message);
             }
@@ -332,16 +362,16 @@ public class LevelManager : MonoBehaviour
     /// <param name="enemyState">The current state of the enemy</param>
     public void UpdateEnemyState(string enemyId, bool enemyState)
     {
-        foreach(EnemyObject enemy in enemyList)
+        foreach (EnemyObject enemy in enemyList)
         {
-            if(enemy.enemyId == enemyId)
+            if (enemy.enemyId == enemyId)
             {
                 enemy.isDead = enemyState;
                 return;
             }
         }
     }
-    
+
     #endregion
 
     #region Canvas Methods
@@ -354,5 +384,45 @@ public class LevelManager : MonoBehaviour
         playerCanvas.ShowGameOver(currentLevelName);
     }
 
+    private void PopulateTasks()
+    {
+        foreach (TaskItem task in taskList)
+        {
+            task.checkBox.isOn = false;
+            task.objectiveCount.text = 0.ToString();
+
+            // Set totalObjectiveCount
+            switch (task.taskType)
+            {
+                case TaskType.Fire:
+                    task.totalObjectiveCount.text = fireList.Count.ToString();
+                    break;
+                case TaskType.Repair:
+                    task.totalObjectiveCount.text = wallList.Count.ToString();
+                    break;
+                case TaskType.Debris:
+                    task.totalObjectiveCount.text = debrisList.Count.ToString();
+                    break;
+                case TaskType.Enemy:
+                    task.totalObjectiveCount.text = enemyList.Count.ToString();
+                    break;
+                default:
+                    Debug.LogError("[LevelManager] - TaskType not found");
+                    break;
+            }
+        }
+
+        timerOn = true;
+    }
+
+    private void UpdateTimer(float currentTime)
+    {
+        currentTime += 1;
+
+        float minutes = Mathf.FloorToInt(currentTime / 60);
+        float seconds = Mathf.FloorToInt(currentTime % 60);
+
+        timeText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
+    }
     #endregion
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 257150523851349076}
   - component: {fileID: 6163661819222340913}
   - component: {fileID: 3508608128059598449}
+  - component: {fileID: 5000332717419820474}
   m_Layer: 5
   m_Name: GameOver Canvas
   m_TagString: Untagged
@@ -121,6 +122,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RaycastTriggerInteraction: 1
+--- !u!225 &5000332717419820474
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850303667129185643}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2854180363078524932
 GameObject:
   m_ObjectHideFlags: 0
@@ -2558,6 +2571,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4571204383830333644}
+  - component: {fileID: 7113367252205424483}
   m_Layer: 0
   m_Name: Player Canvas
   m_TagString: Untagged
@@ -2583,6 +2597,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7113367252205424483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6229627545519416840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6213d26aa741a94aa84ec877948a4c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionInTime: 1
+  transitionOutTime: 1
+  displayTime: 3
+  gameOverCanvas: {fileID: 850303667129185643}
+  clearCanvas: {fileID: 4667960876487459100}
 --- !u!1 &9010887584521230822
 GameObject:
   m_ObjectHideFlags: 0
