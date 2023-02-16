@@ -20,10 +20,26 @@ public class Debris : MonoBehaviour
     //====================================
     [SerializeField] private float totalClearGauge = 0f;
     [SerializeField] private Vector3 debrisReduction;
+    [SerializeField] private float shrinkSpeed;
+
+    //[SerializeField] private Vector3 vector3;
+    [SerializeField] private float clearAmt;
+
+    //====================================
+    // Private Variables
+    //====================================
+    [SerializeField] private float axisX;
+    private float axisY;
+    private float axisZ;
     #endregion
 
     #region Unity Methods
-
+    private void Start()
+    {
+        axisX = transform.localScale.x;
+        axisY = transform.localScale.y;
+        axisZ = transform.localScale.z;
+    }
     #endregion
 
     #region Own Methods
@@ -34,25 +50,50 @@ public class Debris : MonoBehaviour
         // decrease gauge
         totalClearGauge -= clearAmount;
 
+        // update scale axis
+        axisX = transform.localScale.x;
+        axisY = transform.localScale.y;
+        axisZ = transform.localScale.z;
         // update progress bar
 
         // reduce scale of debris
-        // ReduceScale(debrisReduction);
+        if(axisX > 0 && axisY > 0 && axisZ > 0)
+        {
+            transform.localScale = new Vector3((axisX - shrinkSpeed), (axisY - shrinkSpeed), (axisZ - shrinkSpeed));
+
+            //ReduceScale(debrisReduction);
+        }
 
         if (totalClearGauge <= 0)
         {
             cleared = true;
+            clearAmount = 0;
+            transform.localScale = new Vector3(0, 0, 0);
+
             // show an effect
 
             // update task
+
+            // destroy gameobject
+            Destroy(gameObject);
         }
     }
 
-    private void ReduceScale(Vector3 reduceNum)
+    private void OnTriggerStay(Collider other)
     {
-        Vector3 debrisScale = this.gameObject.transform.localScale;
-        debrisScale -= reduceNum;
+        if(other.CompareTag("Vacuum"))
+        {
+            print("in range of vacuum");
+            ClearingDebris(clearAmt * Time.deltaTime);
+        }
     }
+
+    //private void ReduceScale(Vector3 reduceNum)
+    //{
+    //    //Vector3 debrisScale = this.gameObject.transform.localScale;
+    //    Vector3 debrisScale = transform.localScale;
+    //    //debrisScale -= reduceNum;
+    //}
 
     [ContextMenu("Genrate GUID")]
     private void GenerateGUID()

@@ -9,6 +9,8 @@ TagManager:
   - Debris
   - Weapon
   - WayPoint
+  - Vacuum
+  - Floor
   layers:
   - Default
   - TransparentFX

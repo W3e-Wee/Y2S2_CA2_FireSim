@@ -15,6 +15,8 @@ public class Vacuum : MonoBehaviour
     //====================================
     [SerializeField] private float clearRate = 0f;
     [SerializeField] private string targetTag = string.Empty;
+    [SerializeField] private ParticleSystem blackhole;
+    [SerializeField] private float delay;
 
     //===================
     // Private Variables
@@ -25,7 +27,8 @@ public class Vacuum : MonoBehaviour
     #region Unity Methods
     protected void Start()
     {
-
+        blackhole.gameObject.SetActive(false);
+        blackhole.Stop();
     }
 
     protected void Update()
@@ -35,17 +38,32 @@ public class Vacuum : MonoBehaviour
     #endregion
 
     #region Own Methods
-    void OnCollisionStay(Collision collision)
-    {
-        print("Collided tag: " + collision.collider.tag);
-        // clear the debris
-        if (collision.gameObject.TryGetComponent(out Debris debris))
-        {
-            print("Clear Debris");
-            debris.ClearingDebris(clearRate * Time.deltaTime);
-        }
+    //void OnCollisionStay(Collision collision)
+    //{
+    //    print("Collided tag: " + collision.collider.tag);
+    //    // clear the debris
+    //    if (collision.gameObject.TryGetComponent(out Debris debris))
+    //    {
+    //        print("Clear Debris");
+    //        debris.ClearingDebris(clearRate * Time.deltaTime);
+    //    }
 
-        // show anim/visual effect
+    //    // show anim/visual effect
+    //}
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Floor"))
+        {
+            blackhole.gameObject.SetActive(true);
+            blackhole.Play();
+            Invoke("StopParticles", delay);
+        }
+    }
+
+    private void StopParticles()
+    {
+        blackhole.Stop();
     }
     #endregion
 
