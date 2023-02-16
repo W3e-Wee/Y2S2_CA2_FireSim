@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     //===================
     // Private Variables
     //===================
+    private LevelManager levelManager;
     #endregion
 
     #region Unity Methods
@@ -29,6 +30,13 @@ public class Player : MonoBehaviour
     {
         currentHealth = 100;
         isPlayerDead = false;
+
+        levelManager = FindObjectOfType<LevelManager>();
+        if(levelManager == null)
+        {
+            Debug.LogError("[Player] - Level Manager not found in scene");
+            return;
+        }
     }
     #endregion
 
@@ -51,6 +59,7 @@ public class Player : MonoBehaviour
     {
         this.GetComponent<CapsuleCollider>().enabled = false;
         // play Gameover canvas
+        levelManager.ToggleGameOver();
     }
     #endregion
 

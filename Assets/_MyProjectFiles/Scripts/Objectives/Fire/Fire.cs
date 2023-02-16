@@ -1,5 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.Linq;
+using System.Collections.Generic;
 
 //---------------------------------------------------------------------------------
 // Author		: Wee Heng
@@ -9,6 +12,7 @@ using UnityEngine.UI;
 
 public class Fire : MonoBehaviour
 {
+    public string fireId = string.Empty;
     #region Variables
     //====================================
     // [SerializeField] Private Variables
@@ -27,6 +31,7 @@ public class Fire : MonoBehaviour
 
     [Space]
     [SerializeField] private Image barFill;
+    public bool extinguished = false;
 
     //====================================
     // Private Variables
@@ -34,7 +39,9 @@ public class Fire : MonoBehaviour
     private float[] startIntensities = new float[0];
     private float timeLastExtinguished = 0f;
     private bool isLit = true;
-    
+    private LevelManager levelManager;
+
+
     #endregion
 
     #region Unity Methods
@@ -51,6 +58,16 @@ public class Fire : MonoBehaviour
         {
             startIntensities[i] = fireParticleSystem[i].emission.rateOverTime.constant;
         }
+
+        // Get the level manager
+        try{
+            levelManager = FindObjectOfType<LevelManager>();
+        }
+        catch(Exception e)
+        {
+            Debug.LogError("[Fire] - LevelManger is not present in scene: " + e.Message);
+        }
+        
     }
     protected void Update()
     {
@@ -64,7 +81,15 @@ public class Fire : MonoBehaviour
 
             // regen fire
             ChangeIntensity();
+
         }// End of IF check
+
+
+        // FOR TESTING
+        // if (extinguished)
+        // {
+        //     levelManager.UpdateFireState(fireId, extinguished);
+        // }
     }
     #endregion
 
@@ -98,14 +123,18 @@ public class Fire : MonoBehaviour
             // Set isLit to false;
             isLit = false;
 
-            // Change layer
-            int LayerIgnoreRaycast = LayerMask.NameToLayer("Ignore Raycast");
-            gameObject.layer = LayerIgnoreRaycast;
+            // Set extinguished to true
+            extinguished = true;
 
             // Show steam particle
             EmitSteam();
 
-            // update managers and UI
+            // Change layer
+            int LayerIgnoreRaycast = LayerMask.NameToLayer("Ignore Raycast");
+            gameObject.layer = LayerIgnoreRaycast;
+
+            // Invoke method to inform LevelManager
+            levelManager.UpdateFireState(fireId, extinguished);
 
             return;
         }
@@ -142,6 +171,13 @@ public class Fire : MonoBehaviour
         steamParticles.Emit(emitParams, 1);
 
     }// End of EmitSteam
+
+    [ContextMenu("Generate GUID")]
+    private void GenerateGUID()
+    {
+        Guid fireGuid = Guid.NewGuid();
+        fireId = fireGuid.ToString();
+    }
     #endregion
 
 }

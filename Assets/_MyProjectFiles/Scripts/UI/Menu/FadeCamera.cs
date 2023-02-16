@@ -1,28 +1,26 @@
 using UnityEngine;
-using System.Collections;
 
 //---------------------------------------------------------------------------------
 // Author		: Wee Heng
-// Date  		: YYYY-MM-DD
-// Description	: This is where you write a summary of what the role of this file.
+// Date  		: 2023-02-15
+// Description	: Sript to fade in and out camera
 //---------------------------------------------------------------------------------
 
 public class FadeCamera : Singleton<FadeCamera>
 {
     #region Variables
     //====================================
-    // [SerializeField] Private Variables
+    // Public 
     //====================================
     [Header("Transition Timing")]
     [Range(0, 5)] public float fadeInTime;
     [Range(0, 5)] public float fadeOutTime;
 
+    //====================================
+    // [SerializeField] Private
+    //====================================
     [Space]
     [SerializeField] private CanvasGroup fadeCanvasGroup;
-    //===================
-    // Private Variables
-    //===================
-
     #endregion
 
     #region Unity Methods
@@ -30,6 +28,10 @@ public class FadeCamera : Singleton<FadeCamera>
     #endregion
 
     #region Own Methods
+
+    /// <summary>
+    /// Fade's in the canvas via LeanTween sequence
+    /// </summary>
     public void FadeInCanvas()
     {
         var fadeInSq = LeanTween.sequence();
@@ -46,6 +48,10 @@ public class FadeCamera : Singleton<FadeCamera>
         });
     }
 
+
+    /// <summary>
+    /// Fade's out the canvas via LeanTween sequence
+    /// </summary>
     public void FadeOutCanvas()
     {
         var fadeOutSq = LeanTween.sequence();
@@ -63,14 +69,20 @@ public class FadeCamera : Singleton<FadeCamera>
 
     }
 
+    /// <summary>
+    /// Called when canvas is faded in
+    /// </summary>
     private void OnFadeInComplete()
     {
-        
+
     }
 
+    /// <summary>
+    /// Called when canvas is faded out
+    /// </summary>
     private void OnFadeOutComplete()
     {
-        
+
     }
     #endregion
 

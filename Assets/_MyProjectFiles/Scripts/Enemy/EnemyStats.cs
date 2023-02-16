@@ -11,14 +11,11 @@ public class EnemyStats : MonoBehaviour
 {
     #region Variables
     //====================================
-    // [SerializeField] Private Variables
+    // Public Variables
     //====================================
+    public string enemyId = string.Empty;
     public int currentHealth;
-
-    //===================
-    // Private Variables
-    //===================
-    [SerializeField] private bool isDead = false;
+    public bool isDead = false;
 
     //===================
     // Private Variables
@@ -47,6 +44,7 @@ public class EnemyStats : MonoBehaviour
     private void Die()
     {
         this.GetComponent<EnemyBT>().enabled = false;
+        this.GetComponent<CapsuleCollider>().enabled = false;
 
         anim.SetBool("isDead", true);
     }
@@ -58,6 +56,12 @@ public class EnemyStats : MonoBehaviour
             // enemy die
             Die();
         }
+    }
+
+    [ContextMenu("Generate GUID")]
+    private void GenerateGUID()
+    {
+        enemyId = System.Guid.NewGuid().ToString();
     }
     #endregion
 }

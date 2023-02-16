@@ -60,7 +60,6 @@ public class MainMenu : MonoBehaviour
     #region Handler Methods
     private void HandleGameStateChanged(GameManager.GameState currentState, GameManager.GameState previousState)
     {
-        // Debug.Log("Previous State: " + previousState + ", Current State: " + currentState);
         // check if current state is RUNNING and prev state is PREGAME
         if (previousState == GameManager.GameState.PREGAME && currentState == GameManager.GameState.RUNNING)
         {
@@ -69,6 +68,7 @@ public class MainMenu : MonoBehaviour
     }
 
     #endregion
+
     #region Decal & Splash Methods
     private void StartSequence()
     {
@@ -98,6 +98,7 @@ public class MainMenu : MonoBehaviour
             AudioManager.Instance.PlayMusic("Menu Theme");
         });
     }
+    
     #endregion
 
     #region Menu Methods
@@ -173,5 +174,6 @@ public class MainMenu : MonoBehaviour
     {
         menuPanel.SetActive(isActive);
     }
+    
     #endregion
 }

@@ -5,7 +5,7 @@ using System;
 //---------------------------------------------------------------------------------
 // Author		: Wee Heng
 // Date  		: 2023-02-07
-// Description	: script to manage gaame audio
+// Description	: Script to manage game audio
 //---------------------------------------------------------------------------------
 
 public class AudioManager : Singleton<AudioManager>
@@ -25,6 +25,8 @@ public class AudioManager : Singleton<AudioManager>
     //===================
     // Private Variables
     //===================
+
+    // Audio Mixer Channels Exposed Params
     private const string MUSIC_PARAM = "MusicVol";
     private const string SFX_PARAM = "SFXVol";
 
@@ -36,7 +38,15 @@ public class AudioManager : Singleton<AudioManager>
         SetMusicSounds();
         SetSFXSounds();
     }
+    
     #region Own Methods
+    // ====================
+    // Private
+    // ====================
+
+    /// <summary>
+    /// Sets each music Audio Clip to an Audio Source
+    /// </summary>
     private void SetMusicSounds()
     {
         foreach (Sounds music in musicSounds)
@@ -52,6 +62,10 @@ public class AudioManager : Singleton<AudioManager>
             music.source.playOnAwake = music.playOnAwake;
         }
     }
+
+    /// <summary>
+    /// Sets each SFX Audio Clip to an Audio Source
+    /// </summary>
     private void SetSFXSounds()
     {
         foreach (Sounds sfx in sfxSounds)
@@ -67,6 +81,14 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
+    // ====================
+    // Public
+    // ====================
+
+    /// <summary>
+    /// Plays the music in the param
+    /// </summary>
+    /// <param name="name">Name of the audio clip to play</param>
     public void PlayMusic(string name)
     {
         // finds sound with in Array with the same name
@@ -84,6 +106,10 @@ public class AudioManager : Singleton<AudioManager>
         m.source.Play();
     }
 
+    /// <summary>
+    /// Stop playing the audio clip in the param
+    /// </summary>
+    /// <param name="name">Name of the auido clip to stop playing</param>
     public void StopMusic(string name)
     {
         // finds sound with in Array with the same name
@@ -101,6 +127,10 @@ public class AudioManager : Singleton<AudioManager>
         m.source.Stop();
     }
 
+    /// <summary>
+    /// Plays sfx stated in the params
+    /// </summary>
+    /// <param name="name">Name of th audio clip to play</param>
     public void PlaySFX(string name)
     {
         // finds sound with in Array with the same name
@@ -117,6 +147,10 @@ public class AudioManager : Singleton<AudioManager>
         sfx.source.PlayOneShot(sfx.source.clip);
     }
 
+    /// <summary>
+    /// Sets audio mixer to mute (-80f)
+    /// </summary>
+    /// <param name="mixerGrp">The target Audio Mixer Group</param>
     public void MuteSounds(string mixerGrp)
     {
         switch (mixerGrp)
@@ -132,6 +166,11 @@ public class AudioManager : Singleton<AudioManager>
                 return;
         }
     }
+
+    /// <summary>
+    /// Sets audio mixer to unmute (0f)
+    /// </summary>
+    /// <param name="mixerGrp">The target Audio Mixer Group</param>
     public void UnmuteSounds(string mixerGrp)
     {
         switch (mixerGrp)
@@ -148,16 +187,25 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
+    /// <summary>
+    /// Changes volume in Music audio mixer channel
+    /// </summary>
+    /// <param name="sliderVal">The current slider value</param>
     public void ChangeMusicVolume(float sliderVal)
     {
         musicMixer.audioMixer.SetFloat(MUSIC_PARAM, Mathf.Log10(sliderVal) * 25);
         // save as PlayerPref
     }
+
+    /// <summary>
+    /// Changes volume in the SFX audio mixere channel
+    /// </summary>
+    /// <param name="sliderVal">The current slider value</param>
     public void ChangeSFXVolume(float sliderVal)
     {
         sfxMixer.audioMixer.SetFloat(SFX_PARAM, Mathf.Log10(sliderVal) * 25);
         // save as PlayerPref
     }
+    
     #endregion
-
 }

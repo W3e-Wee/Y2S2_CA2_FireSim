@@ -50,12 +50,14 @@ MonoBehaviour:
     volume: 0.5
     pitch: 1
     loop: 1
+    playOnAwake: 0
     source: {fileID: 0}
   - name: Level 1 Theme
     clip: {fileID: 8300000, guid: dfc6038cd868a064bb67ff42c60cfaa8, type: 3}
     volume: 0.5
     pitch: 1
     loop: 1
+    playOnAwake: 0
     source: {fileID: 0}
   sfxSounds:
   - name: ButtonHover
@@ -63,12 +65,14 @@ MonoBehaviour:
     volume: 0.6
     pitch: 1
     loop: 0
+    playOnAwake: 0
     source: {fileID: 0}
   - name: ButtonClick
     clip: {fileID: 8300000, guid: 5d1604874fee6c04dbc166a333e40ba0, type: 3}
     volume: 1
     pitch: 1
     loop: 0
+    playOnAwake: 0
     source: {fileID: 0}
   musicMixer: {fileID: -1258010142802557118, guid: 03c1663644c44934e8e3c01dae766054, type: 2}
   sfxMixer: {fileID: -6856637141854528661, guid: 03c1663644c44934e8e3c01dae766054, type: 2}

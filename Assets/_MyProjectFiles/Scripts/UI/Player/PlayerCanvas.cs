@@ -41,6 +41,11 @@ public class PlayerCanvas : MonoBehaviour
     #endregion
 
     #region Own Methods
+
+    /// <summary>
+    /// Displays game over canvas to player and restart the level
+    /// </summary>
+    /// <param name="currentLevel">The current loaded level</param>
     public void ShowGameOver(string currentLevel)
     {
 		// get last loaded level

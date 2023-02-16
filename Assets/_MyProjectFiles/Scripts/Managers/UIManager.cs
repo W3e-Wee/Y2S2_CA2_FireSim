@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 //---------------------------------------------------------------------------------
@@ -11,6 +12,7 @@ public class UIManager : Singleton<UIManager>
 {
     #region Variables
     [SerializeField] private MainMenu mainMenu;
+    [SerializeField] private PlayerCanvas playerCanvas;
 
     #endregion
 
