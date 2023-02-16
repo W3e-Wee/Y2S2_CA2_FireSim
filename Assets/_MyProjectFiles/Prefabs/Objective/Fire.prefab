@@ -14481,7 +14481,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &553007693193477370
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19227,16 +19227,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 244270cc43e51f143a2524170337078f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireId: 
   fireIntensity: 1
   fireParticleSystem:
   - {fileID: 735526233405850297}
   - {fileID: 741800172715880347}
   - {fileID: 735396116574843169}
   - {fileID: 1864111345100526286}
-  steamParticles: {fileID: 3900765841810140583}
-  steamEmissionPoint: {fileID: 3813746693461530843}
   fireRegenRate: 0.2
   fireRegenDelay: 2.5
+  steamParticles: {fileID: 3900765841810140583}
+  steamEmissionPoint: {fileID: 3813746693461530843}
   barFill: {fileID: 0}
   extinguished: 0
 --- !u!1 &3811717368564204905

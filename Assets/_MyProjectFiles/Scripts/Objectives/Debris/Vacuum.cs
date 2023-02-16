@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 //---------------------------------------------------------------------------------
-// Author		: Wee Heng
+// Author		: Wee Heng & Xuan Wei
 // Date  		: YYYY-MM-DD
 // Description	: This is where you write a summary of what the role of this file.
 //---------------------------------------------------------------------------------
@@ -53,12 +53,17 @@ public class Vacuum : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Floor"))
+        // ignore specific gameObjects
+        if (!collision.gameObject.CompareTag("Ignore"))
         {
             blackhole.gameObject.SetActive(true);
             blackhole.Play();
             Invoke("StopParticles", delay);
         }
+
+        //blackhole.gameObject.SetActive(true);
+        //blackhole.Play();
+        //Invoke("StopParticles", delay);
     }
 
     private void StopParticles()
