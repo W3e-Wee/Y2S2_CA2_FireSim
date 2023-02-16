@@ -66,10 +66,6 @@ public class Construct : MonoBehaviour
     // FOR TESTING
     protected void Update()
     {
-        if (repaired)
-        {
-			levelManager.UpdateWallState(wallId, repaired);
-        }
     }
     #endregion
 
@@ -109,16 +105,17 @@ public class Construct : MonoBehaviour
             // change the layer
             int LayerIgnoreRaycast = LayerMask.NameToLayer("Ignore Raycast");
             gameObject.layer = LayerIgnoreRaycast;
+
             // show repaired wall
             intensity = 0f;
             dmgWall.material.SetColor("_EmissionColor", color * intensity);
 
-            // check out objective
-            //task.UpdateConstructTaskList(1);
 
             isRepaired = true;
             repaired = true;
-            //return true;
+
+            // Update levelManager
+            levelManager.UpdateWallState(wallId, repaired);
         }
         // Switch case to show repair progress
         //switch((float)fillAmount)

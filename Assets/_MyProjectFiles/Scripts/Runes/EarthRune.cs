@@ -72,13 +72,11 @@ public class EarthRune : MonoBehaviour
         // Fire a raycast
         if (Physics.Raycast(rayFirePos.position, rayFirePos.forward, out hit, rayRange) && gunArm.activeSelf)
         {
-            print("Gameobject hit: " + hit.transform.name);
             // Repair the wall
             if (hit.collider.TryGetComponent(out Construct wall))
             {
                 // Play earth particle here
 
-                print("Fixing Wall");
                 wall.WallRepairing(wallRepairAmount * Time.deltaTime);
             } // End of IF check 2
 

@@ -79,7 +79,7 @@ public class WaterRune : MonoBehaviour
             if (hit.collider.TryGetComponent(out Fire fire))
             {
                 // Extinguish fire
-                print("Extinguishing Fire");
+                // print("Extinguishing Fire");
 
 
                 fire.FireExtinguishing(amountExtinguishedPerSec * Time.deltaTime);

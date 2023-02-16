@@ -41,7 +41,9 @@ public class EnemyAttack : Node
 
 
         Debug.Log("Attacking");
+
         attackCounter += Time.deltaTime;
+        
         if (attackCounter >= attackCD)
         {
             bool playerDead = _player.TakeDmg();
@@ -52,6 +54,8 @@ public class EnemyAttack : Node
                 ClearData(EnemyBT.TARGET_KEY);
                 _agent.stoppingDistance = 0;
                 _agent.speed = 2f;
+
+                Debug.Log("Player is dead." + target);
 
                 // stop attack anim
                 _anim.SetBool("isAttacking", false);

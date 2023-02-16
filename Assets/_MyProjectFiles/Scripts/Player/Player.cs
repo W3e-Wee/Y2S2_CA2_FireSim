@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
     {
         this.GetComponent<CapsuleCollider>().enabled = false;
         // play Gameover canvas
-        levelManager.ToggleGameOver();
+        // levelManager.ToggleGameOver();
     }
     #endregion
 

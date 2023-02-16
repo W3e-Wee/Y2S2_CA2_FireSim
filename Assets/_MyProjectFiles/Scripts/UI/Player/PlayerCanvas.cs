@@ -16,7 +16,7 @@ public class PlayerCanvas : MonoBehaviour
     [Header("Transition Settings")]
     [Range(0, 5)] public float transitionInTime;
     [Range(0, 5)] public float transitionOutTime;
-	[Range(0,5)] public float displayTime = 3f;
+    [Range(0, 5)] public float displayTime = 3f;
 
     //====================================
     // [SerializeField] Private Variables
@@ -37,6 +37,8 @@ public class PlayerCanvas : MonoBehaviour
     {
         gameOverCanvasGroup = gameOverCanvas.GetComponent<CanvasGroup>();
         clearCanvasGroup = clearCanvas.GetComponent<CanvasGroup>();
+
+        clearCanvasGroup.blocksRaycasts = false;
     }
     #endregion
 
@@ -48,10 +50,10 @@ public class PlayerCanvas : MonoBehaviour
     /// <param name="currentLevel">The current loaded level</param>
     public void ShowGameOver(string currentLevel)
     {
-		// get last loaded level
+        // get last loaded level
         string previousLoadedLevel = currentLevel;
 
-		// start animation sequence
+        // start animation sequence
         var loseSq = LeanTween.sequence();
 
         loseSq
@@ -68,7 +70,7 @@ public class PlayerCanvas : MonoBehaviour
         // restart level
         .append(() =>
         {
-			LeanTween.alphaCanvas(gameOverCanvasGroup, 0f, transitionOutTime);
+            LeanTween.alphaCanvas(gameOverCanvasGroup, 0f, transitionOutTime);
             GameManager.Instance.UnloadLevel(currentLevel);
         })
         .append(1f)
@@ -80,8 +82,28 @@ public class PlayerCanvas : MonoBehaviour
 
     public void ShowClear()
     {
+        var winSq = LeanTween.sequence();
 
+        winSq
+        .append(() =>
+        {
+            clearCanvasGroup.blocksRaycasts = true;
+            LeanTween.alphaCanvas(clearCanvasGroup, 1f, transitionInTime);
+        });
+    }
+    
+    public void LoadNextLevel(string levelName)
+    {
+        // Save progress
+
+        GameManager.Instance.LoadLevel(levelName);
+    }
+    
+    public void ReturnBtn()
+    {
+        // Save progress
+
+        GameManager.Instance.LoadLevel("Menu_Scene");
     }
     #endregion
-
 }

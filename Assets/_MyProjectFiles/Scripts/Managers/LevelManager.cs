@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 using System.Collections.Generic;
 using TMPro;
 
@@ -43,20 +44,21 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float timeLeft = 60f;
     [SerializeField] private bool timerOn;
     [SerializeField] private TextMeshProUGUI timeText;
-    
+
     #endregion
 
     // =======================
     // Private
     // =======================
     private PlayerCanvas playerCanvas;
-
+    private int counter;
 
     #region Unity Methods
     protected void Start()
     {
         // CheckGameStateChanged();
         playerCanvas = FindObjectOfType<PlayerCanvas>();
+        counter = 0;
 
         // Get Objectives in scene
         fires = GameObject.FindObjectsOfType<Fire>();
@@ -89,6 +91,8 @@ public class LevelManager : MonoBehaviour
                 ToggleGameOver();
             }
         }
+
+        CheckToggleState();
     }
 
     #endregion
@@ -193,7 +197,30 @@ public class LevelManager : MonoBehaviour
             {
                 // update the fire's state
                 f.isExtinguished = fireState;
-                return;
+
+                // update taskList
+                foreach (TaskItem task in taskList)
+                {
+                    if (task.taskType == TaskType.Fire)
+                    {
+                        // Convert string to int
+                        int taskCount = Convert.ToInt32(task.objectiveCount.text);
+
+                        // increment int
+                        taskCount++;
+
+                        // Convert bacak to string
+                        task.objectiveCount.text = taskCount.ToString();
+
+                        if (taskCount == Convert.ToInt32(task.totalObjectiveCount.text))
+                        {
+                            task.checkBox.isOn = true;
+                            counter++;
+                        }
+                    }
+
+                    return;
+                }
             }
         }
     }
@@ -251,7 +278,30 @@ public class LevelManager : MonoBehaviour
             {
                 // update the wall's state
                 wall.isFixed = wallState;
-                return;
+
+                // update taskList
+                foreach (TaskItem task in taskList)
+                {
+                    if (task.taskType == TaskType.Repair)
+                    {
+                        // Convert string to int
+                        int taskCount = Convert.ToInt32(task.objectiveCount.text);
+
+                        // increment int
+                        taskCount++;
+
+                        // Convert bacak to string
+                        task.objectiveCount.text = taskCount.ToString();
+
+                        if (taskCount == Convert.ToInt32(task.totalObjectiveCount.text))
+                        {
+                            task.checkBox.isOn = true;
+                            counter++;
+                        }
+
+                        return;
+                    }
+                }
             }
         }
     }
@@ -307,10 +357,33 @@ public class LevelManager : MonoBehaviour
         {
             if (d.debrisId == debrisId)
             {
-                // update the wall's state
+                // update the debris's state
                 d.isCleared = debrisState;
 
-                return;
+                // update taskList
+                foreach (TaskItem task in taskList)
+                {
+                    if (task.taskType == TaskType.Debris)
+                    {
+                        // Convert string to int
+                        int taskCount = Convert.ToInt32(task.objectiveCount.text);
+
+                        // increment int
+                        taskCount++;
+
+                        // Convert bacak to string
+                        task.objectiveCount.text = taskCount.ToString();
+
+                        if (taskCount == Convert.ToInt32(task.totalObjectiveCount.text))
+                        {
+                            task.checkBox.isOn = true;
+                            // increment counter
+                            counter++;
+                        }
+
+                        return;
+                    }
+                }
             }
         }
     }
@@ -366,10 +439,35 @@ public class LevelManager : MonoBehaviour
         {
             if (enemy.enemyId == enemyId)
             {
+                // update enemy's state
                 enemy.isDead = enemyState;
-                return;
+
+                // update taskList
+                foreach (TaskItem task in taskList)
+                {
+                    if (task.taskType == TaskType.Enemy)
+                    {
+                        // Convert string to int
+                        int taskCount = Convert.ToInt32(task.objectiveCount.text);
+
+                        // increment int
+                        taskCount++;
+
+                        // Convert bacak to string
+                        task.objectiveCount.text = taskCount.ToString();
+
+                        if (taskCount == Convert.ToInt32(task.totalObjectiveCount.text))
+                        {
+                            task.checkBox.isOn = true;
+                            counter++;
+                        }
+
+                        return;
+                    }
+                }
             }
         }
+
     }
 
     #endregion
@@ -423,6 +521,17 @@ public class LevelManager : MonoBehaviour
         float seconds = Mathf.FloorToInt(currentTime % 60);
 
         timeText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
+    }
+
+    private void CheckToggleState()
+    {
+        if(counter == taskList.Count)
+        {
+            Debug.LogWarning("Level Cleared");
+            playerCanvas.ShowClear();
+            counter = 0;
+            return;
+        }
     }
     #endregion
 }
