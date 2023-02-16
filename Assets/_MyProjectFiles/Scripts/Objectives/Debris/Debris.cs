@@ -1,7 +1,7 @@
 using UnityEngine;
 
 //---------------------------------------------------------------------------------
-// Author		: Wee Heng
+// Author		: Wee Heng & Xuan Wei
 // Date  		: 2023-02-16
 // Description	: Script that manages Debris methods
 //---------------------------------------------------------------------------------
@@ -19,7 +19,7 @@ public class Debris : MonoBehaviour
     // [SerializeField] Private Variables
     //====================================
     [SerializeField] private float totalClearGauge = 0f;
-    [SerializeField] private Vector3 debrisReduction;
+    //[SerializeField] private Vector3 debrisReduction;
     [SerializeField] private float shrinkSpeed;
 
     //[SerializeField] private Vector3 vector3;

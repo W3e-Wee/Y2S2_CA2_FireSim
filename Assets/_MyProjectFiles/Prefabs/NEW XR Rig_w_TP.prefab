@@ -8379,6 +8379,10 @@ PrefabInstance:
       propertyPath: itemPrefab
       value: 
       objectReference: {fileID: 3700993642030095980, guid: 6703fe8cbcbe83e48944a16da8926928, type: 3}
+    - target: {fileID: 5669419526561715934, guid: c63a981c97b449c48b28d63804d8c8ce, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c7971552dba3aba4fb30af9334e4a2df, type: 2}
     - target: {fileID: 6237772496017154562, guid: c63a981c97b449c48b28d63804d8c8ce, type: 3}
       propertyPath: m_Name
       value: Earth Rune Bag
@@ -8662,6 +8666,10 @@ PrefabInstance:
       propertyPath: itemPrefab
       value: 
       objectReference: {fileID: 6074559656611846932, guid: d07d35f70b533ee41a78113f4d1dfc5a, type: 3}
+    - target: {fileID: 5669419526561715934, guid: c63a981c97b449c48b28d63804d8c8ce, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4dc0781ad45c8654095fa379ee0a3420, type: 2}
     - target: {fileID: 6237772496017154562, guid: c63a981c97b449c48b28d63804d8c8ce, type: 3}
       propertyPath: m_Name
       value: Water Rune Bag

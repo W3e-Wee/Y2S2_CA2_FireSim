@@ -11,6 +11,7 @@ TagManager:
   - WayPoint
   - Vacuum
   - Floor
+  - Ignore
   layers:
   - Default
   - TransparentFX
