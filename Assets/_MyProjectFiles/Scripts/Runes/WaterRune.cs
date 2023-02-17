@@ -43,6 +43,9 @@ public class WaterRune : MonoBehaviour
     {
         // Find and get GauntletInputManager component
         gauntletInput = GameObject.Find("GauntletInputManager").GetComponent<GauntletInputManager>();
+        rayFirePos = GameObject.Find("LeftHand Controller").GetComponent<Transform>();
+        gunArm = GameObject.FindObjectOfType<ToggleGunArmCheck>().gameObject;
+        waterParticle = GameObject.Find("WaterParticle (FINAL)").GetComponent<ParticleSystem>();
 
         // Set layer mask
         layerMask = (1 << targetLayer);
@@ -65,7 +68,7 @@ public class WaterRune : MonoBehaviour
     }
     #endregion
     #region Own Methods
-	
+
     /// <summary>
     /// Fires Raycast and calls FireExtinguishing
     /// If in contact with a gameObject with Fire script
@@ -75,6 +78,7 @@ public class WaterRune : MonoBehaviour
         // Fire raycast
         if (Physics.Raycast(rayFirePos.position, rayFirePos.forward, out hit, rayRange, layerMask) && gunArm.activeSelf)
         {
+            waterParticle = GameObject.Find("WaterParticle (FINAL)").GetComponent<ParticleSystem>();
             // Check for Fire script in gameObject
             if (hit.collider.TryGetComponent(out Fire fire))
             {

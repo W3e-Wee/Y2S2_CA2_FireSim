@@ -132,7 +132,7 @@ MonoBehaviour:
   rayFirePos: {fileID: 0}
   rayRange: 100
   targetLayer: 9
-  earthparticle: {fileID: 0}
+  earthparticle: {fileID: 198279101275435388, guid: 9e03786a9517b604d8e930182607a128, type: 3}
   wallRepairAmount: 1
   manaCount: 10
   manaDecreaseAmt: 0.1

@@ -35,10 +35,10 @@ public class PlayerCanvas : MonoBehaviour
     #region Unity Methods
     protected void Start()
     {
+        // FadeCamera.Instance.FadeOutCanvas();
         gameOverCanvasGroup = gameOverCanvas.GetComponent<CanvasGroup>();
-        clearCanvasGroup = clearCanvas.GetComponent<CanvasGroup>();
 
-        clearCanvasGroup.blocksRaycasts = false;
+        gameOverCanvasGroup.blocksRaycasts = false;
     }
     #endregion
 
@@ -80,18 +80,6 @@ public class PlayerCanvas : MonoBehaviour
         });
     }
 
-    public void ShowClear()
-    {
-        var winSq = LeanTween.sequence();
-
-        winSq
-        .append(() =>
-        {
-            clearCanvasGroup.blocksRaycasts = true;
-            LeanTween.alphaCanvas(clearCanvasGroup, 1f, transitionInTime);
-        });
-    }
-    
     public void LoadNextLevel(string levelName)
     {
         // Save progress

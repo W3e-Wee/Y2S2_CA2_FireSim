@@ -12,7 +12,7 @@ public class UIManager : Singleton<UIManager>
 {
     #region Variables
     [SerializeField] private MainMenu mainMenu;
-    [SerializeField] private PlayerCanvas playerCanvas;
+    // [SerializeField] private PlayerCanvas playerCanvas;
 
     #endregion
 

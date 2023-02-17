@@ -41,9 +41,12 @@ public class LevelManager : MonoBehaviour
     public List<TaskItem> taskList;
 
     [Header("Timer Setting")]
-    [SerializeField] private float timeLeft = 60f;
+    public float timeLeft = 60f;
     [SerializeField] private bool timerOn;
     [SerializeField] private TextMeshProUGUI timeText;
+    [HideInInspector] public float timePast;
+
+    // public bool showClearCanvas = false;
 
     #endregion
 
@@ -51,13 +54,18 @@ public class LevelManager : MonoBehaviour
     // Private
     // =======================
     private PlayerCanvas playerCanvas;
+    private ScoreCanvas score;
     private int counter;
+    private float totalTime;
 
     #region Unity Methods
     protected void Start()
     {
-        // CheckGameStateChanged();
+        // Comment it out if NOT starting from Boot scene
+        CheckGameStateChanged();
+        
         playerCanvas = FindObjectOfType<PlayerCanvas>();
+        score = FindObjectOfType<ScoreCanvas>();
         counter = 0;
 
         // Get Objectives in scene
@@ -81,6 +89,7 @@ public class LevelManager : MonoBehaviour
         // update timer
         if (timerOn)
         {
+            totalTime = timeLeft;
             timeLeft -= Time.deltaTime;
             UpdateTimer(timeLeft);
 
@@ -91,6 +100,13 @@ public class LevelManager : MonoBehaviour
                 ToggleGameOver();
             }
         }
+
+        /* FOR TESTING
+        if(showClearCanvas)
+        {
+            counter = taskList.Count;
+        }
+        */
 
         CheckToggleState();
     }
@@ -527,8 +543,17 @@ public class LevelManager : MonoBehaviour
     {
         if(counter == taskList.Count)
         {
+            // Show level clear
             Debug.LogWarning("Level Cleared");
-            playerCanvas.ShowClear();
+            score.ShowClear();
+
+            // stop timer
+            timerOn = false;
+
+            // get current time
+            timePast = totalTime - timeLeft;
+            Debug.Log("Time past: " + timePast);
+            // reset counter
             counter = 0;
             return;
         }

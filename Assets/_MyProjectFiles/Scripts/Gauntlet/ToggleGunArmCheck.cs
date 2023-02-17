@@ -7,6 +7,7 @@ public class ToggleGunArmCheck : MonoBehaviour
 {
     public InputActionReference toggleReference = null;
     public GameObject leftHand;
+    private GameObject playerInventory;
 
     // Start is called before the first frame update
     private void Awake()

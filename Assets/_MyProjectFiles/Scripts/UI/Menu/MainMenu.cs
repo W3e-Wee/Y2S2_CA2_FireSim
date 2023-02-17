@@ -36,7 +36,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject settingPanel;
 
     [Space]
-    [SerializeField] private string unloadLevelName;
+    public string unloadLevelName;
     //===================
     // Private
     //===================
@@ -52,6 +52,11 @@ public class MainMenu : MonoBehaviour
 
         mainMenuCanvasGroup = mainMenuCanvas.GetComponent<CanvasGroup>();
         logoCanvasGroup = logoCanvas.GetComponent<CanvasGroup>();
+
+        mainMenuCanvasGroup.blocksRaycasts = false;
+        logoCanvasGroup.blocksRaycasts = false;
+        settingCanvasGroup.blocksRaycasts = false;
+        menuCanvasGroup.blocksRaycasts = false;
 
         StartSequence();
     }
@@ -94,11 +99,17 @@ public class MainMenu : MonoBehaviour
         {
             // fade in decal and menu
             LeanTween.alphaCanvas(mainMenuCanvasGroup, 1f, transitionInTime);
+
+            // Enable raycast blocking
+            mainMenuCanvasGroup.blocksRaycasts = true;
+            menuCanvasGroup.blocksRaycasts = true;
+
+            // Disbale logo ans start the music
             logoCanvas.SetActive(false);
             AudioManager.Instance.PlayMusic("Menu Theme");
         });
     }
-    
+
     #endregion
 
     #region Menu Methods
@@ -111,12 +122,14 @@ public class MainMenu : MonoBehaviour
         loadSq
         .append(() =>
         {
-            LeanTween.alphaCanvas(menuCanvasGroup, 0f, transitionOutTime);
+            LeanTween.alphaCanvas(mainMenuCanvasGroup, 0f, transitionOutTime);
+            mainMenuCanvasGroup.blocksRaycasts = false;
         })
         .append(1f)
         .append(() =>
         {
             FadeCamera.Instance.FadeInCanvas();
+            mainMenuCanvas.SetActive(false);
         })
         .append(2f)
         .append(() =>
@@ -140,12 +153,14 @@ public class MainMenu : MonoBehaviour
         {
             // hide menu
             LeanTween.alphaCanvas(menuCanvasGroup, 0f, transitionOutTime);
+            menuCanvasGroup.blocksRaycasts = false;
         })
         .append(() =>
         {
             ToggleMenuPanel(false);
             // show setting
             LeanTween.alphaCanvas(settingCanvasGroup, 1f, transitionInTime);
+            settingCanvasGroup.blocksRaycasts = true;
         });
     }
 
@@ -158,11 +173,14 @@ public class MainMenu : MonoBehaviour
             // hide setting
             LeanTween.alphaCanvas(settingCanvasGroup, 0f, transitionOutTime);
             ToggleMenuPanel(true);
+            settingCanvasGroup.blocksRaycasts = false;
+
         })
         .append(() =>
         {
             // show menu
             LeanTween.alphaCanvas(menuCanvasGroup, 1f, transitionInTime);
+            menuCanvasGroup.blocksRaycasts = true;
         });
     }
 
@@ -174,6 +192,6 @@ public class MainMenu : MonoBehaviour
     {
         menuPanel.SetActive(isActive);
     }
-    
+
     #endregion
 }

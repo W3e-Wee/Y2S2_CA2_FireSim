@@ -13,18 +13,18 @@ public class EarthRune : MonoBehaviour
     // [SerializeField] Private Variables
     //====================================
     [Header("Raycast Setting")]
-    [SerializeField] private Transform rayFirePos;
+    public Transform rayFirePos;
     [SerializeField, Range(0f, 150f)] private float rayRange = 100f;
     [SerializeField] private int targetLayer = 0;
 
     [Space]
 
     [Header("Rune Setting")]
-    [SerializeField] private ParticleSystem earthparticle;
+    public ParticleSystem earthparticle;
     [SerializeField, Range(0f, 20f)] private float wallRepairAmount = 0f;
     [SerializeField] private float manaCount = 100f;
     [SerializeField] private float manaDecreaseAmt = 0f;
-    [SerializeField] private GameObject gunArm;
+    public GameObject gunArm;
 
     //===================
     // Private Variables
@@ -38,8 +38,11 @@ public class EarthRune : MonoBehaviour
     #region Unity Methods
     protected void Start()
     {
-        // Find and get GauntletInputManager component
+        // Find and get component
         gauntletInput = GameObject.Find("GauntletInputManager").GetComponent<GauntletInputManager>();
+        rayFirePos = GameObject.Find("LeftHand Controller").GetComponent<Transform>();
+        gunArm = GameObject.FindObjectOfType<ToggleGunArmCheck>().gameObject;
+        earthparticle = GameObject.Find("EarthParticle").GetComponent<ParticleSystem>();
 
         // Set layer mask
         layerMask = (1 << targetLayer);
@@ -72,6 +75,7 @@ public class EarthRune : MonoBehaviour
         // Fire a raycast
         if (Physics.Raycast(rayFirePos.position, rayFirePos.forward, out hit, rayRange) && gunArm.activeSelf)
         {
+            earthparticle = GameObject.Find("EarthParticle").GetComponent<ParticleSystem>();
             // Repair the wall
             if (hit.collider.TryGetComponent(out Construct wall))
             {

@@ -16,7 +16,7 @@ public class PlayerInventory : MonoBehaviour
     //===================
     public GameObject itemPrefab;
     public int maxSpawn;
-    private int counter;
+    public int counter;
 
 	[Header("UI")]
 	[SerializeField] private TextMeshProUGUI maxSpawnCountText;
@@ -47,7 +47,7 @@ public class PlayerInventory : MonoBehaviour
         }
         else
         {
-            Instantiate(itemPrefab, transform.position, Quaternion.identity);
+            GameObject runeClone = Instantiate(itemPrefab, transform.position, Quaternion.identity);
             counter++;
         }
 

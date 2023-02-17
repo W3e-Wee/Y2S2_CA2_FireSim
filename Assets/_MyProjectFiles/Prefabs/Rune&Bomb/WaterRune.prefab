@@ -132,7 +132,7 @@ MonoBehaviour:
   rayFirePos: {fileID: 0}
   rayRange: 100
   targetLayer: 9
-  waterParticle: {fileID: 0}
+  waterParticle: {fileID: 198244127493087640, guid: a82a87e68ab906d4bbf876f687e2a155, type: 3}
   amountExtinguishedPerSec: 0.5
   manaCount: 100
   manaDecreaseAmt: 0

@@ -86,7 +86,7 @@ public class Construct : MonoBehaviour
         //dmgWall.material.color = color;
 
         dmgWall.material.SetColor("_EmissionColor", color * intensity);
-        print(color);
+        // print(color);
 
         if (intensity > 0)
         {
