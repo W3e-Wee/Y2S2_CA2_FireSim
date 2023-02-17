@@ -7,6 +7,7 @@ using System.Collections;
 // Description	: Template
 //---------------------------------------------------------------------------------
 
+[System.Serializable]
 public class EnemyObject
 {
 	public string enemyId;

@@ -29,6 +29,7 @@ public class ScoreCanvas : MonoBehaviour
     [Header("Grades")]
     [SerializeField] private List<Grades> gradeList;
     [SerializeField] private TextMeshProUGUI gradeText;
+
     //===================
     // Private Variables
     //===================
@@ -62,10 +63,12 @@ public class ScoreCanvas : MonoBehaviour
             LeanTween.alphaCanvas(clearCanvasGroup, 1f, 1f);
         });
     }
+    
     public void LoadNextLevel(string levelName)
     {
-        GameManager.Instance.LoadLevel(levelName);
+        levelManager.LoadNextLevel(levelName);
     }
+
     private void TabulateScore()
     {
         float taskScore = (levelManager.taskList.Count * pointsPerTask);

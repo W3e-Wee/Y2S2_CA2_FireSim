@@ -46,8 +46,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timeText;
     [HideInInspector] public float timePast;
 
-    // public bool showClearCanvas = false;
-
+    public bool showClearCanvas = false;
     #endregion
 
     // =======================
@@ -55,6 +54,7 @@ public class LevelManager : MonoBehaviour
     // =======================
     private PlayerCanvas playerCanvas;
     private ScoreCanvas score;
+    private PlayerInventory[] playerInventories;
     private int counter;
     private float totalTime;
 
@@ -63,9 +63,19 @@ public class LevelManager : MonoBehaviour
     {
         // Comment it out if NOT starting from Boot scene
         CheckGameStateChanged();
-        
+
+        // get current level name
+        currentLevelName = SceneManager.GetActiveScene().name;
         playerCanvas = FindObjectOfType<PlayerCanvas>();
         score = FindObjectOfType<ScoreCanvas>();
+        
+        // reset inventory data
+        playerInventories = FindObjectsOfType<PlayerInventory>();
+        foreach(PlayerInventory inv in playerInventories)
+        {
+            inv.counter = 0;
+        }
+        
         counter = 0;
 
         // Get Objectives in scene
@@ -101,19 +111,47 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        /* FOR TESTING
-        if(showClearCanvas)
-        {
-            counter = taskList.Count;
-        }
-        */
 
-        CheckToggleState();
+        // if (showClearCanvas)
+        // {
+        //     counter = taskList.Count;
+        // }
+
+        // CheckToggleState();
     }
 
     #endregion
 
     #region Level Methods
+    /// <summary>
+    /// Load the next level
+    /// </summary>
+    /// <param name="levelName"></param>
+    public void LoadNextLevel(string levelName)
+    {
+
+        var loadSq = LeanTween.sequence();
+        loadSq
+        .append(1f)
+        .append(() =>
+        {
+            FadeCamera.Instance.FadeInCanvas();
+
+        })
+        .append(2f)
+        .append(() =>
+        {
+            // unload previous level and stop the music
+            GameManager.Instance.UnloadLevel(currentLevelName);
+            // AudioManager.Instance.StopMusic("Menu Theme");
+        })
+        .append(2f)
+        .append(() =>
+        {
+            // load next level
+            GameManager.Instance.LoadLevel(levelName);
+        });
+    }
 
     /// <summary>
     /// Checks for the game's state and 
@@ -121,9 +159,6 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private void CheckGameStateChanged()
     {
-        // get current level name
-        currentLevelName = SceneManager.GetActiveScene().name;
-
         // check to see if game is in a RUNNING state
         if (GameManager.Instance.CurrentGameState == GameManager.GameState.RUNNING)
         {
@@ -232,6 +267,8 @@ public class LevelManager : MonoBehaviour
                         {
                             task.checkBox.isOn = true;
                             counter++;
+                            CheckToggleState();
+                            break;
                         }
                     }
 
@@ -313,6 +350,8 @@ public class LevelManager : MonoBehaviour
                         {
                             task.checkBox.isOn = true;
                             counter++;
+                            CheckToggleState();
+                            break;
                         }
 
                         return;
@@ -395,6 +434,8 @@ public class LevelManager : MonoBehaviour
                             task.checkBox.isOn = true;
                             // increment counter
                             counter++;
+                            CheckToggleState();
+                            break;
                         }
 
                         return;
@@ -476,6 +517,8 @@ public class LevelManager : MonoBehaviour
                         {
                             task.checkBox.isOn = true;
                             counter++;
+                            CheckToggleState();
+                            break;
                         }
 
                         return;
@@ -541,7 +584,7 @@ public class LevelManager : MonoBehaviour
 
     private void CheckToggleState()
     {
-        if(counter == taskList.Count)
+        if (counter == taskList.Count)
         {
             // Show level clear
             Debug.LogWarning("Level Cleared");

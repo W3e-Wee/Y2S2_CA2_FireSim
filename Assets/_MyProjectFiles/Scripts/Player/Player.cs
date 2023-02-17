@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 //---------------------------------------------------------------------------------
@@ -22,7 +23,8 @@ public class Player : MonoBehaviour
     //===================
     // Private Variables
     //===================
-    private LevelManager levelManager;
+    private PlayerCanvas playerCanvas;
+    private string currentLevel;
     #endregion
 
     #region Unity Methods
@@ -30,9 +32,10 @@ public class Player : MonoBehaviour
     {
         currentHealth = 100;
         isPlayerDead = false;
+        currentLevel = SceneManager.GetActiveScene().name;
 
-        levelManager = FindObjectOfType<LevelManager>();
-        if(levelManager == null)
+        playerCanvas = FindObjectOfType<PlayerCanvas>();
+        if(playerCanvas == null)
         {
             Debug.LogError("[Player] - Level Manager not found in scene");
             return;
@@ -59,7 +62,7 @@ public class Player : MonoBehaviour
     {
         this.GetComponent<CapsuleCollider>().enabled = false;
         // play Gameover canvas
-        // levelManager.ToggleGameOver();
+        playerCanvas.ShowGameOver(currentLevel);
     }
     #endregion
 

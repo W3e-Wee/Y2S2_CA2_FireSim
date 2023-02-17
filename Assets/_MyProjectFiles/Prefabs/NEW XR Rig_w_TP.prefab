@@ -356,6 +356,68 @@ MonoBehaviour:
   m_DefaultActionMap: Custom
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!1 &4206551849116268543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5460617311852720883}
+  - component: {fileID: 7001848581997288812}
+  - component: {fileID: 2159638076138729413}
+  m_Layer: 7
+  m_Name: PlayerCollider
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5460617311852720883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4206551849116268543}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6473182307133551755}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &7001848581997288812
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4206551849116268543}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2159638076138729413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4206551849116268543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09f440f29adf5fb4aa30b42361a33d99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 0
+  dmgTaken: 10
+  isPlayerDead: 0
 --- !u!1 &6130583072473713585
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,6 +614,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5460617311852720883}
   - {fileID: 5421199515949414212}
   m_Father: {fileID: 6473182308289587166}
   m_RootOrder: 0
@@ -764,10 +827,13 @@ MonoBehaviour:
   simpleInteractables:
   - gameObject: {fileID: 1100101010237920690}
     heightOffset: 0.5
+    runeCount: 0
   - gameObject: {fileID: 1100101009721449799}
     heightOffset: 0.5
+    runeCount: 0
   - gameObject: {fileID: 1100101010937631423}
     heightOffset: 0.5
+    runeCount: 0
 --- !u!1 &6473182307362503918
 GameObject:
   m_ObjectHideFlags: 0
@@ -9009,7 +9075,7 @@ PrefabInstance:
     - target: {fileID: 5669419526561715928, guid: c63a981c97b449c48b28d63804d8c8ce, type: 3}
       propertyPath: itemPrefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3953711561073554185, guid: dae0a787afa5b8649a66231a8fe65588, type: 3}
     - target: {fileID: 6237772496017154562, guid: c63a981c97b449c48b28d63804d8c8ce, type: 3}
       propertyPath: m_Name
       value: Vacuum Bag
@@ -9247,7 +9313,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4571204383830333644, guid: d01f183586bf07f4f9d6f5779949b7b5, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4571204383830333644, guid: d01f183586bf07f4f9d6f5779949b7b5, type: 3}
       propertyPath: m_LocalPosition.x

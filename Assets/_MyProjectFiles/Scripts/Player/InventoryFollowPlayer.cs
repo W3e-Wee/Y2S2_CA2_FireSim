@@ -12,6 +12,7 @@ public class InventoryBag
 {
 	public GameObject gameObject;
 	[Range(0.01f, 2f)] public float heightOffset;
+	public int runeCount;
 }
 
 public class InventoryFollowPlayer : MonoBehaviour 
@@ -35,7 +36,7 @@ public class InventoryFollowPlayer : MonoBehaviour
 	{
 		currentHMDPosition = HMD.transform.position;
 		currentHMDRotation = HMD.transform.rotation;
-		foreach(var interactable in simpleInteractables)
+		foreach(InventoryBag interactable in simpleInteractables)
 		{
 			UpdateInventoryBagHeight(interactable);
 		}
