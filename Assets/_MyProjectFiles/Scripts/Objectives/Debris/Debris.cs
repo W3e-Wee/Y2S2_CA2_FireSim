@@ -31,6 +31,7 @@ public class Debris : MonoBehaviour
     [SerializeField] private float axisX;
     private float axisY;
     private float axisZ;
+    private LevelManager levelManager;
     #endregion
 
     #region Unity Methods
@@ -39,6 +40,8 @@ public class Debris : MonoBehaviour
         axisX = transform.localScale.x;
         axisY = transform.localScale.y;
         axisZ = transform.localScale.z;
+
+        levelManager = FindObjectOfType<LevelManager>();
     }
     #endregion
 
@@ -54,14 +57,11 @@ public class Debris : MonoBehaviour
         axisX = transform.localScale.x;
         axisY = transform.localScale.y;
         axisZ = transform.localScale.z;
-        // update progress bar
 
         // reduce scale of debris
-        if(axisX > 0 && axisY > 0 && axisZ > 0)
+        if (axisX > 0 && axisY > 0 && axisZ > 0)
         {
             transform.localScale = new Vector3((axisX - shrinkSpeed), (axisY - shrinkSpeed), (axisZ - shrinkSpeed));
-
-            //ReduceScale(debrisReduction);
         }
 
         if (totalClearGauge <= 0)
@@ -73,7 +73,8 @@ public class Debris : MonoBehaviour
             // show an effect
 
             // update task
-
+            levelManager.UpdateDebrisState(debrisId, cleared);
+            
             // destroy gameobject
             Destroy(gameObject);
         }
@@ -81,7 +82,7 @@ public class Debris : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.CompareTag("Vacuum"))
+        if (other.CompareTag("Vacuum"))
         {
             print("in range of vacuum");
             ClearingDebris(clearAmt * Time.deltaTime);

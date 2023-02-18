@@ -30,7 +30,6 @@ public class Fire : MonoBehaviour
     [SerializeField] private Transform steamEmissionPoint;
 
     [Space]
-    [SerializeField] private Image barFill;
     public bool extinguished = false;
 
     //====================================
@@ -47,9 +46,6 @@ public class Fire : MonoBehaviour
     #region Unity Methods
     protected void Start()
     {
-        // Set progress bar
-        // barFill.fillAmount = fireIntensity;
-
         // Populate variable
         startIntensities = new float[fireParticleSystem.Length];
 
@@ -76,20 +72,10 @@ public class Fire : MonoBehaviour
         {
             fireIntensity += fireRegenRate * Time.deltaTime;
 
-            // Set progress bar
-            // barFill.fillAmount = fireIntensity;
-
             // regen fire
             ChangeIntensity();
 
         }// End of IF check
-
-
-        // FOR TESTING
-        // if (extinguished)
-        // {
-        //     levelManager.UpdateFireState(fireId, extinguished);
-        // }
     }
     #endregion
 
@@ -107,9 +93,6 @@ public class Fire : MonoBehaviour
     {
         // decrease fire intensity
         fireIntensity -= amount;
-
-        // update progress bar
-        // barFill.fillAmount = fireIntensity;
 
         // set last extinguished to current time
         timeLastExtinguished = Time.time;
@@ -129,13 +112,10 @@ public class Fire : MonoBehaviour
             // Show steam particle
             EmitSteam();
 
-            // Change layer
-            int LayerIgnoreRaycast = LayerMask.NameToLayer("Ignore Raycast");
-            gameObject.layer = LayerIgnoreRaycast;
-
             // Invoke method to inform LevelManager
             levelManager.UpdateFireState(fireId, extinguished);
 
+            Destroy(this.gameObject);
             return;
         }
 

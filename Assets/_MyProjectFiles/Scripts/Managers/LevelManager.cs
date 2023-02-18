@@ -10,12 +10,17 @@ using TMPro;
 // Description	: Script to manage level logic
 //---------------------------------------------------------------------------------
 // Responsible for:
-// 1. Spawning required prefabs
+// 1. Keep track of gameObjects in scene
 // 2. Keep track of win/lose
 // 3. Interact with other managers (i.e. UIManager, GameManager)
 //---------------------------------------------------------------------------------
-
-public class LevelManager : MonoBehaviour
+/*
+    THINGS TO SAVE:
+        > currentLevelName
+        > List of fire, debris, walls, enemys
+        > timeLeft
+*/
+public class LevelManager : MonoBehaviour, IDataPersistence
 {
     #region Variables
     public string currentLevelName;
@@ -61,21 +66,22 @@ public class LevelManager : MonoBehaviour
     #region Unity Methods
     protected void Start()
     {
-        // Comment it out if NOT starting from Boot scene
-        CheckGameStateChanged();
-
         // get current level name
         currentLevelName = SceneManager.GetActiveScene().name;
+
+        // Comment it out if NOT starting from Boot scene
+        // CheckGameStateChanged();
+
         playerCanvas = FindObjectOfType<PlayerCanvas>();
         score = FindObjectOfType<ScoreCanvas>();
-        
+
         // reset inventory data
         playerInventories = FindObjectsOfType<PlayerInventory>();
-        foreach(PlayerInventory inv in playerInventories)
+        foreach (PlayerInventory inv in playerInventories)
         {
             inv.counter = 0;
         }
-        
+
         counter = 0;
 
         // Get Objectives in scene
@@ -121,7 +127,18 @@ public class LevelManager : MonoBehaviour
     }
 
     #endregion
+    #region Save & Load Methods
+    public void LoadData(GameData data)
+    {
+        this.currentLevelName = data.currentLevel;
+    }
 
+    public void SaveData(GameData data)
+    {
+        data.currentLevel  = this.currentLevelName;
+    }
+
+    #endregion
     #region Level Methods
     /// <summary>
     /// Load the next level
@@ -143,7 +160,6 @@ public class LevelManager : MonoBehaviour
         {
             // unload previous level and stop the music
             GameManager.Instance.UnloadLevel(currentLevelName);
-            // AudioManager.Instance.StopMusic("Menu Theme");
         })
         .append(2f)
         .append(() =>

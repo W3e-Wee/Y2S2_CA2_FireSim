@@ -38,23 +38,10 @@ public class Vacuum : MonoBehaviour
     #endregion
 
     #region Own Methods
-    //void OnCollisionStay(Collision collision)
-    //{
-    //    print("Collided tag: " + collision.collider.tag);
-    //    // clear the debris
-    //    if (collision.gameObject.TryGetComponent(out Debris debris))
-    //    {
-    //        print("Clear Debris");
-    //        debris.ClearingDebris(clearRate * Time.deltaTime);
-    //    }
-
-    //    // show anim/visual effect
-    //}
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         // ignore specific gameObjects
-        if (!collision.gameObject.CompareTag("Ignore"))
+        if (collision.gameObject.CompareTag("Debris"))
         {
             blackhole.gameObject.SetActive(true);
             blackhole.Play();

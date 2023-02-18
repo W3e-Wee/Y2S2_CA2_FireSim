@@ -78,25 +78,15 @@ public class WaterRune : MonoBehaviour
         // Fire raycast
         if (Physics.Raycast(rayFirePos.position, rayFirePos.forward, out hit, rayRange, layerMask) && gunArm.activeSelf)
         {
-            waterParticle = GameObject.Find("WaterParticle (FINAL)").GetComponent<ParticleSystem>();
             // Check for Fire script in gameObject
             if (hit.collider.TryGetComponent(out Fire fire))
             {
                 // Extinguish fire
-                // print("Extinguishing Fire");
-
-
                 fire.FireExtinguishing(amountExtinguishedPerSec * Time.deltaTime);
+                
+                // Decrease mana
+                DecreaseMana(manaDecreaseAmt);
             }
-            else
-            {
-
-
-            }// End of IF...ELSE
-
-            // Decrease mana
-            DecreaseMana(manaDecreaseAmt);
-
         } // End of IF check
     }// End of Extinguish
 
@@ -114,7 +104,6 @@ public class WaterRune : MonoBehaviour
 
         if (mana <= 0)
         {
-            // StopParticle();
             OnLowGauge();
 
         }// End of IF check

@@ -20,24 +20,32 @@ public class ToggleGunArmCheck : MonoBehaviour
     // Update is called once per frame
     private void OnDestroy()
     {
-        toggleReference.action.started -= Toggle;
+        // toggleReference.action.started -= Toggle;
         //print("gunarm [ OFF! ]");
     }
 
-    private void Toggle(InputAction.CallbackContext context)
+    public void Toggle(InputAction.CallbackContext context)
     {
-        bool isActive = !gameObject.activeSelf;
-        gameObject.SetActive(isActive);
-
-        print(isActive);
-
-        if (isActive == true)
+        if (context.started)
         {
-            leftHand.SetActive(false);
+            print("Toggling gunArm");
+            bool isActive = !gameObject.activeSelf;
+            gameObject.SetActive(isActive);
+
+            print(isActive);
+
+            if (isActive == true)
+            {
+                leftHand.SetActive(false);
+            }
+            else
+            {
+                leftHand.SetActive(true);
+            }
         }
         else
         {
-            leftHand.SetActive(true);
+            return;
         }
     }
 }

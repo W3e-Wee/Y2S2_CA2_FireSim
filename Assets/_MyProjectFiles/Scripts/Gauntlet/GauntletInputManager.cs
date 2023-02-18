@@ -16,6 +16,7 @@ public class GauntletInputManager : MonoBehaviour
     //===================
     // Public Variables
     //===================
+    // public InputActionReference fireReference = null;
     public bool runeActive = false;
     public bool isEarthActive = false;
     public bool isWaterActive = false;
@@ -27,7 +28,6 @@ public class GauntletInputManager : MonoBehaviour
     //===================
     // Private Variables
     //===================
-    private PlayerInput pI;
     #endregion
 
     #region Unity Methods
@@ -35,9 +35,6 @@ public class GauntletInputManager : MonoBehaviour
     {
         // Find object in scene with tag "Socket" and get "SocketWithTagCheck" component
         socket = GameObject.FindGameObjectWithTag("Socket").GetComponent<SocketWithTagCheck>();
-
-        // Find and get PlayerInput component
-        pI = this.GetComponent<PlayerInput>();
     }
     #endregion
 
@@ -112,7 +109,6 @@ public class GauntletInputManager : MonoBehaviour
 		{
 			runeActive = false;
 		} // End of context cancelled check
-
 	} // End of onGauntletFire method
     #endregion
 

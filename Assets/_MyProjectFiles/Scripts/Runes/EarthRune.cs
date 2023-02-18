@@ -75,25 +75,17 @@ public class EarthRune : MonoBehaviour
         // Fire a raycast
         if (Physics.Raycast(rayFirePos.position, rayFirePos.forward, out hit, rayRange) && gunArm.activeSelf)
         {
-            earthparticle = GameObject.Find("EarthParticle").GetComponent<ParticleSystem>();
             // Repair the wall
             if (hit.collider.TryGetComponent(out Construct wall))
             {
-                // Play earth particle here
-
+                // repair wall
                 wall.WallRepairing(wallRepairAmount * Time.deltaTime);
+                
+                // Decrease mana
+                DecreaseMana(manaDecreaseAmt);
             } // End of IF check 2
 
         }
-        else
-        {
-            // Stop earth particle
-
-        } // End of IF...ElSE
-
-        // Decrease mana
-        DecreaseMana(manaDecreaseAmt);
-
     }// End of Repair method
 
     /// <summary>

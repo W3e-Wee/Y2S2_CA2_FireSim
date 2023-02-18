@@ -7,7 +7,6 @@ using System.Collections;
 // Date  		: 2023-02-13
 // Description	: Script to spawn gameobject onto Player's hands
 //---------------------------------------------------------------------------------
-
 public class PlayerInventory : MonoBehaviour
 {
     #region Variables

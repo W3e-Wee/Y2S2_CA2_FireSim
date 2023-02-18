@@ -608,8 +608,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9174c8b068ae69f4fa505ceb5242566e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemPrefab: {fileID: 0}
+  itemPrefab: {fileID: 3953711561073554185, guid: dae0a787afa5b8649a66231a8fe65588, type: 3}
   maxSpawn: 0
+  counter: 0
   maxSpawnCountText: {fileID: 145796622368027845}
   currentSpawnCountText: {fileID: 3157094297825665415}
 --- !u!1 &6532678500749375018
