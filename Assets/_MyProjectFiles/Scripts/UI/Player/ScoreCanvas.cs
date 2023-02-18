@@ -63,7 +63,7 @@ public class ScoreCanvas : MonoBehaviour
             LeanTween.alphaCanvas(clearCanvasGroup, 1f, 1f);
         });
     }
-    
+
     public void LoadNextLevel(string levelName)
     {
         levelManager.LoadNextLevel(levelName);

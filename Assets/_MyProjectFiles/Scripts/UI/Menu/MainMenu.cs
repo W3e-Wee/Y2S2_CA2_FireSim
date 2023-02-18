@@ -113,9 +113,20 @@ public class MainMenu : MonoBehaviour
     #endregion
 
     #region Menu Methods
-    public void LoadNextLevel(string levelName)
+    public void LoadNextLevel()
     {
         // check for players last played level
+        string levelName = " ";
+        DataPersistenceManager.Instance.LoadGame();
+
+        if (DataPersistenceManager.Instance.gameData != null)
+        {
+            levelName = DataPersistenceManager.Instance.gameData.currentLevel;
+        }
+        else
+        {
+            DataPersistenceManager.Instance.NewGame();
+        }
 
         var loadSq = LeanTween.sequence();
 

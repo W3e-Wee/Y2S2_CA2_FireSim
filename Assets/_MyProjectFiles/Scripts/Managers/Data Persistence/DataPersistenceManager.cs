@@ -12,8 +12,8 @@ public class DataPersistenceManager : Singleton<DataPersistenceManager>
 {
     [Header("File Storage Config")]
     [SerializeField] private string fileName;
+    public GameData gameData;
 
-    private GameData gameData;
     private List<IDataPersistence> dataPersistenceObjects;
     private FileDataHandler dataHandler;
 
@@ -71,7 +71,6 @@ public class DataPersistenceManager : Singleton<DataPersistenceManager>
         return new List<IDataPersistence>(dataPersistenceObjects);
     }
 
-    // FOR TESTING
     private void OnApplicationQuit()
     {
         SaveGame();

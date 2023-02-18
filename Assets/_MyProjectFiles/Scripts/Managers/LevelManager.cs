@@ -75,6 +75,9 @@ public class LevelManager : MonoBehaviour, IDataPersistence
         playerCanvas = FindObjectOfType<PlayerCanvas>();
         score = FindObjectOfType<ScoreCanvas>();
 
+
+        // check for loaded data
+
         // reset inventory data
         playerInventories = FindObjectsOfType<PlayerInventory>();
         foreach (PlayerInventory inv in playerInventories)
@@ -127,18 +130,62 @@ public class LevelManager : MonoBehaviour, IDataPersistence
     }
 
     #endregion
+
     #region Save & Load Methods
     public void LoadData(GameData data)
     {
         this.currentLevelName = data.currentLevel;
+
+        // Check for each object if the task is completed
+        this.fireList = data.sceneFires;
+        this.wallList = data.sceneWalls;
+        this.debrisList = data.sceneDebris;
+        this.enemyList = data.sceneEnemy;
     }
 
     public void SaveData(GameData data)
     {
-        data.currentLevel  = this.currentLevelName;
+        data.currentLevel = this.currentLevelName;
+
+        // List of objective to save
+        data.sceneFires = fireList;
+        data.sceneDebris = debrisList;
+        data.sceneWalls = wallList;
+        data.sceneEnemy = enemyList;
     }
 
+    private void LoadFire(GameData data)
+    {
+        if (data.sceneFires.Count == 0)
+        {
+            return;
+        }
+
+        foreach (FireObject fire in data.sceneFires)
+        {
+            if (fire.isExtinguished)
+            {
+                fire.firePrefab.SetActive(false);
+            }
+        }
+    }
+    private void LoadDebris(GameData data)
+    {
+        if (data.sceneDebris.Count == 0)
+        {
+            return;
+        }
+
+        foreach (DebrisObject debris in data.sceneDebris)
+        {
+            if (debris.isCleared)
+            {
+                debris.debrisPrefab.SetActive(false);
+            }
+        }
+    }
     #endregion
+
     #region Level Methods
     /// <summary>
     /// Load the next level
@@ -146,10 +193,9 @@ public class LevelManager : MonoBehaviour, IDataPersistence
     /// <param name="levelName"></param>
     public void LoadNextLevel(string levelName)
     {
-
         var loadSq = LeanTween.sequence();
+
         loadSq
-        .append(1f)
         .append(() =>
         {
             FadeCamera.Instance.FadeInCanvas();
@@ -557,6 +603,11 @@ public class LevelManager : MonoBehaviour, IDataPersistence
         playerCanvas.ShowGameOver(currentLevelName);
     }
 
+    public void SaveAndReturn()
+    {
+        DataPersistenceManager.Instance.SaveGame();
+    }
+
     private void PopulateTasks()
     {
         foreach (TaskItem task in taskList)
@@ -617,5 +668,6 @@ public class LevelManager : MonoBehaviour, IDataPersistence
             return;
         }
     }
+
     #endregion
 }
