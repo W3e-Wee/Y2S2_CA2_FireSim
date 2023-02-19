@@ -63,7 +63,7 @@ public class LevelManager : MonoBehaviour, IDataPersistence
     protected void Start()
     {
         // Comment it out if NOT starting from Boot scene
-        //CheckGameStateChanged();
+        CheckGameStateChanged();
 
         playerCanvas = FindObjectOfType<PlayerCanvas>();
         score = FindObjectOfType<ScoreCanvas>();

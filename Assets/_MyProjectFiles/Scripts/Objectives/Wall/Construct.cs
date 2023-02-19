@@ -116,35 +116,6 @@ public class Construct : MonoBehaviour
             // Update levelManager
             levelManager.UpdateWallState(wallId, repaired);
         }
-        // Switch case to show repair progress
-        //switch((float)fillAmount)
-        //{
-        //	case(.25f):
-        //		print("Repair at 25%");
-
-        //		// Visual feedback here
-
-        //		break;
-        //	case(.50f):
-        //		print("Repair at 50%");
-
-        //		// Visual feedback here
-
-        //		break;
-        //	case(.75f):
-        //		print("Repair at 75%");
-
-        //		// Visual feedback here
-
-        //		break;
-        //	case(1.00f):
-        //		print("Wall Repaired");
-
-        //		// Visual feedback here
-
-        //		isRepaired = true; 
-        //		break;
-        //} // End of switch case
 
         return isRepaired;
     }

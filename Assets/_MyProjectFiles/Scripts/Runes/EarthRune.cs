@@ -82,7 +82,8 @@ public class EarthRune : MonoBehaviour
                 wall.WallRepairing(wallRepairAmount * Time.deltaTime);
                 
                 // Decrease mana
-                DecreaseMana(manaDecreaseAmt);
+                // DecreaseMana(manaDecreaseAmt);
+                
             } // End of IF check 2
 
         }

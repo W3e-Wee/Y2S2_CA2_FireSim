@@ -85,7 +85,7 @@ public class WaterRune : MonoBehaviour
                 fire.FireExtinguishing(amountExtinguishedPerSec * Time.deltaTime);
                 
                 // Decrease mana
-                DecreaseMana(manaDecreaseAmt);
+                // DecreaseMana(manaDecreaseAmt);
             }
         } // End of IF check
     }// End of Extinguish
