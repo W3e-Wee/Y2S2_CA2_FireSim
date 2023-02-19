@@ -1807,11 +1807,11 @@ MonoBehaviour:
   totalPointsText: {fileID: 3372341858805731841}
   gradeList:
   - grade: A
-    pointsToAchieveGrade: 70
+    pointsToAchieveGrade: 200
   - grade: B
-    pointsToAchieveGrade: 30
+    pointsToAchieveGrade: 100
   - grade: C
-    pointsToAchieveGrade: 10
+    pointsToAchieveGrade: 50
   - grade: F
     pointsToAchieveGrade: 0
   gradeText: {fileID: 3372341858470574094}

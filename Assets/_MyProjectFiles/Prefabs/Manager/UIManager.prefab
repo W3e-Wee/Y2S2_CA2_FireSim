@@ -2725,6 +2725,18 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 6361326541486279943}
         m_TargetAssemblyTypeName: AudioController, Assembly-CSharp
+        m_MethodName: SaveVolToPlayerPref
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 6022628726236147782}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6361326541486279943}
+        m_TargetAssemblyTypeName: AudioController, Assembly-CSharp
         m_MethodName: OnButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -2938,6 +2950,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6361326541486279943}
+        m_TargetAssemblyTypeName: AudioController, Assembly-CSharp
+        m_MethodName: SaveVolToPlayerPref
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 6022628726465279704}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3722,6 +3746,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59cc8da4dcf593340a96edc524084e51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  musicSlider: {fileID: 6022628726236147782}
+  sfxSlider: {fileID: 6022628726465279704}
 --- !u!1 &6022628726961652725
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,10 +12,18 @@ using System.Collections;
 public class AudioController : MonoBehaviour
 {
     #region Variables
-    // [Header("Sliders")]
-    // public Slider musicSlider;
-    // public Slider sfxSlider;
+    [Header("Sliders")]
+    public Slider musicSlider;
+    public Slider sfxSlider;
     #endregion
+
+    #region Unity Methods
+    void Start()
+    {
+        LoadPlayerPrefValue();
+    }
+    #endregion
+
 
     #region Audio Methods
     public void ChangeMusicVolume(float musicVol)
@@ -31,11 +39,29 @@ public class AudioController : MonoBehaviour
     public void MuteSounds(string mixerGrp)
     {
         AudioManager.Instance.MuteSounds(mixerGrp);
+        switch (mixerGrp)
+        {
+            case "Music":
+                musicSlider.value = 0;
+                break;
+            case "SFX":
+                sfxSlider.value = 0;
+                break;
+        }
     }
 
     public void UnmuteSounds(string mixerGrp)
     {
         AudioManager.Instance.UnmuteSounds(mixerGrp);
+        switch (mixerGrp)
+        {
+            case "Music":
+                musicSlider.value = 1f;
+                break;
+            case "SFX":
+                sfxSlider.value = 1f;
+                break;
+        }
     }
 
     #endregion
@@ -49,6 +75,24 @@ public class AudioController : MonoBehaviour
     public void OnButtonClicked()
     {
         AudioManager.Instance.PlaySFX("ButtonClick");
+    }
+    #endregion
+
+    #region Player Pref Saving & Loading
+    public void SaveVolToPlayerPref(Slider volumeSlider)
+    {
+        float volumeVal = volumeSlider.value;
+        PlayerPrefs.SetFloat(volumeSlider.name, volumeVal);
+        LoadPlayerPrefValue();
+    }
+
+    private void LoadPlayerPrefValue()
+    {
+        float musicVal = PlayerPrefs.GetFloat(musicSlider.name);
+        musicSlider.value = musicVal;
+
+        float sfxVal = PlayerPrefs.GetFloat(sfxSlider.name);
+        sfxSlider.value = sfxVal;
     }
     #endregion
 }

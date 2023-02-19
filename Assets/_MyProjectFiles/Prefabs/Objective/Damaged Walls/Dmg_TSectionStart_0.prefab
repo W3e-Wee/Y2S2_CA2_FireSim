@@ -112,12 +112,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33430fd3363c4d439f9528eb0920ef1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallId: 
   totalNeededRepair: 5
   repairAmount: 0
   dmgMaterial: {fileID: 2100000, guid: 52a06feed8196bf41abdaa68f24f968c, type: 2}
   dmgWall: {fileID: 4501044663956991478}
   intensity: 1
-  repairSpeed: 0.0007
+  repairSpeed: 0.01
+  repaired: 0
 --- !u!1 &2791186440702951862
 GameObject:
   m_ObjectHideFlags: 0

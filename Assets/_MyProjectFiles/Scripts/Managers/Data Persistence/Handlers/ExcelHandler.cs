@@ -50,7 +50,7 @@ public class ExcelHandler : MonoBehaviour
         DateTime dt = DateTime.Now;
         excelName = "gameScores" + ".xls";
 
-        string path = Application.dataPath + "/Output/";
+        string path = Application.persistentDataPath + "/Output/";
 
         if (!Directory.Exists(path))
         {
@@ -118,7 +118,7 @@ public class ExcelHandler : MonoBehaviour
         DateTime dt = DateTime.Now;
         excelName = "gameScores" + ".xls";
 
-        string path = Application.dataPath + "/Output/";
+        string path = Application.persistentDataPath + "/Output/";
 
         // Check if Directory path exists
         if (!Directory.Exists(path))

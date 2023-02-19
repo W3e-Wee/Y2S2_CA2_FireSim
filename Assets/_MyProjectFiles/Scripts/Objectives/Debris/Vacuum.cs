@@ -38,7 +38,7 @@ public class Vacuum : MonoBehaviour
     #endregion
 
     #region Own Methods
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         // ignore specific gameObjects
         if (collision.gameObject.CompareTag("Debris"))

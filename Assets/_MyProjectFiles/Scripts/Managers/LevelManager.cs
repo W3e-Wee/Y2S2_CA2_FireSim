@@ -63,7 +63,7 @@ public class LevelManager : MonoBehaviour, IDataPersistence
     protected void Start()
     {
         // Comment it out if NOT starting from Boot scene
-        CheckGameStateChanged();
+        //CheckGameStateChanged();
 
         playerCanvas = FindObjectOfType<PlayerCanvas>();
         score = FindObjectOfType<ScoreCanvas>();
@@ -609,6 +609,21 @@ public class LevelManager : MonoBehaviour, IDataPersistence
         .append(() =>
         {
             DataPersistenceManager.Instance.gameData.currentLevel = currentLevelName;
+            FadeCamera.Instance.FadeInCanvas();
+        })
+        .append(() =>
+        {
+            GameManager.Instance.QuitGame();
+        });
+    }
+
+    public void ExitDemo()
+    {
+        var extSq = LeanTween.sequence();
+        extSq
+        .append(() =>
+        {
+            DataPersistenceManager.Instance.gameData.currentLevel = "MainLevel_01_Scene";
             FadeCamera.Instance.FadeInCanvas();
         })
         .append(() =>

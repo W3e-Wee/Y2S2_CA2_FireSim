@@ -172,6 +172,8 @@ public class MainMenu : MonoBehaviour
 
         settingSq.append(() =>
         {
+            // save to playerpref
+
             // hide setting
             LeanTween.alphaCanvas(settingCanvasGroup, 0f, transitionOutTime);
             ToggleMenuPanel(true);
@@ -194,6 +196,5 @@ public class MainMenu : MonoBehaviour
     {
         menuPanel.SetActive(isActive);
     }
-
     #endregion
 }
