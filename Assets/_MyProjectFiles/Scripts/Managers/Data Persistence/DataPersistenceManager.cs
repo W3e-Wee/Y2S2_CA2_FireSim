@@ -11,27 +11,38 @@ using System.Linq;
 public class DataPersistenceManager : Singleton<DataPersistenceManager>
 {
     [Header("File Storage Config")]
-    [SerializeField] private string fileName;
+    public string fileName;
     public GameData gameData;
 
     private List<IDataPersistence> dataPersistenceObjects;
     private FileDataHandler dataHandler;
 
     #region Unity Methods
+    protected override void Awake()
+    {
+        base.Awake();
+
+        this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+    }
+
     void Start()
     {
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
-
-        // FOR TESTING
-        this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
-        NewGame();
+        LoadGame();
     }
     #endregion
+
+    /// <summary>
+    /// Starts a new game with default data
+    /// </summary>
     public void NewGame()
     {
         this.gameData = new GameData();
     }
 
+    /// <summary>
+    /// Loads data and starts a new game if there isn't any
+    /// </summary>
     public void LoadGame()
     {
         // TODO - Load any saved data from a file using the data handler
@@ -40,7 +51,7 @@ public class DataPersistenceManager : Singleton<DataPersistenceManager>
         //if no data can be loaded, init a new game
         if (this.gameData == null)
         {
-            Debug.LogWarning("No data was found. Initializing data to defaults");
+            Debug.LogWarning("No data was found. Starting a new game");
             NewGame();
         }
 
@@ -51,6 +62,9 @@ public class DataPersistenceManager : Singleton<DataPersistenceManager>
         }
     }
 
+    /// <summary>
+    /// Save the game data
+    /// </summary>
     public void SaveGame()
     {
         // TODO - pass the data to other scripts so they can update it
@@ -61,6 +75,7 @@ public class DataPersistenceManager : Singleton<DataPersistenceManager>
 
         // TODO - save that data to a file using the data handler
         dataHandler.Save(gameData);
+        print("Saving: " + gameData.currentLevel);
     }
 
     private List<IDataPersistence> FindAllDataPersistenceObjects()

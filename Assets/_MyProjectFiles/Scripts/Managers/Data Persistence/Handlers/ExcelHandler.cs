@@ -1,7 +1,5 @@
 using System;
-using System.Linq;
 using System.IO;
-using System.Collections.Generic;
 using NPOI.SS.UserModel;
 using NPOI.HSSF.UserModel;
 using UnityEngine;
@@ -50,7 +48,7 @@ public class ExcelHandler : MonoBehaviour
     void RunTimeTest()
     {
         DateTime dt = DateTime.Now;
-        excelName = dt.ToString("yyyy-MM-dd") + ".xls";
+        excelName = "gameScores" + ".xls";
 
         string path = Application.dataPath + "/Output/";
 
@@ -118,7 +116,7 @@ public class ExcelHandler : MonoBehaviour
 
         // write to excel
         DateTime dt = DateTime.Now;
-        excelName = dt.ToString("yyyy-MM-dd") + ".xls";
+        excelName = "gameScores" + ".xls";
 
         string path = Application.dataPath + "/Output/";
 

@@ -45,3 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: data.save
+  gameData:
+    currentLevel: MainLevel_01_Scene
+    sceneFires: []
+    sceneWalls: []
+    sceneDebris: []
+    sceneEnemy: []
+    newGame: 1
+  isNewGame: 0

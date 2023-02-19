@@ -1,9 +1,6 @@
-using UnityEngine;
-using System.Collections;
-
 //---------------------------------------------------------------------------------
 // Author		: Wee Heng
-// Date  		: YYYY-MM-DD
+// Date  		: 2023-02-18
 // Description	: Interface to save and load data to scripts 
 //---------------------------------------------------------------------------------
 

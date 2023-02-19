@@ -69,6 +69,18 @@ public class GameManager : Singleton<GameManager>
     }
     #endregion
 
+    #region Game State Methods
+
+    /// <summary>
+    /// Used to change GameState in other scripts
+    /// </summary>
+    /// <value></value>
+    public GameState CurrentGameState
+    {
+        get { return currentGameState; }
+        set { currentGameState = value; }
+    }
+    
     /// <summary>
     /// Called to add prefabs to list
     /// </summary>
@@ -81,18 +93,6 @@ public class GameManager : Singleton<GameManager>
             prefabInstance = Instantiate(systemPrefabs[i]);
             instancedSystemPrefabs.Add(prefabInstance);
         }
-    }
-
-    #region Game State Methods
-
-    /// <summary>
-    /// Used to change GameState in other scripts
-    /// </summary>
-    /// <value></value>
-    public GameState CurrentGameState
-    {
-        get { return currentGameState; }
-        set { currentGameState = value; }
     }
 
     /// <summary>
@@ -120,6 +120,7 @@ public class GameManager : Singleton<GameManager>
         OnGameStateChanged.Invoke(currentGameState, previousGameState);
     }
     #endregion
+
     #region Scene Loading Methods
 
     /// <summary>
@@ -188,21 +189,17 @@ public class GameManager : Singleton<GameManager>
     #endregion
 
     #region Game Methods
+    /// <summary>
+    /// Start the game
+    /// </summary>
     public void StartGame()
     {
         LoadLevel("Menu_Scene");
     }
 
-    public void TogglePause()
-    {
-        // check to see if GameState is PAUSED and update the state
-        UpdateState(currentGameState == GameState.RUNNING ? GameState.PAUSED : GameState.RUNNING);
-    }
-    public void RestartGame()
-    {
-        UpdateState(GameState.PREGAME);
-    }
-
+    /// <summary>
+    /// Method to exit the game
+    /// </summary>
     public void QuitGame()
     {
 #if UNITY_EDITOR

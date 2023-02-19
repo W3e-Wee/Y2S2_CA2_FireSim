@@ -14,12 +14,8 @@ using TMPro;
 // 2. Keep track of win/lose
 // 3. Interact with other managers (i.e. UIManager, GameManager)
 //---------------------------------------------------------------------------------
-/*
-    THINGS TO SAVE:
-        > currentLevelName
-        > List of fire, debris, walls, enemys
-        > timeLeft
-*/
+// Currently, the LevelManager only saves the last played level
+
 public class LevelManager : MonoBehaviour, IDataPersistence
 {
     #region Variables
@@ -52,7 +48,6 @@ public class LevelManager : MonoBehaviour, IDataPersistence
     [HideInInspector] public float timePast;
 
     public bool showClearCanvas = false;
-    #endregion
 
     // =======================
     // Private
@@ -62,21 +57,16 @@ public class LevelManager : MonoBehaviour, IDataPersistence
     private PlayerInventory[] playerInventories;
     private int counter;
     private float totalTime;
+    #endregion
 
     #region Unity Methods
     protected void Start()
     {
-        // get current level name
-        currentLevelName = SceneManager.GetActiveScene().name;
-
         // Comment it out if NOT starting from Boot scene
-        // CheckGameStateChanged();
+        CheckGameStateChanged();
 
         playerCanvas = FindObjectOfType<PlayerCanvas>();
         score = FindObjectOfType<ScoreCanvas>();
-
-
-        // check for loaded data
 
         // reset inventory data
         playerInventories = FindObjectsOfType<PlayerInventory>();
@@ -86,6 +76,7 @@ public class LevelManager : MonoBehaviour, IDataPersistence
         }
 
         counter = 0;
+        showClearCanvas = false;
 
         // Get Objectives in scene
         fires = GameObject.FindObjectsOfType<Fire>();
@@ -120,69 +111,68 @@ public class LevelManager : MonoBehaviour, IDataPersistence
             }
         }
 
+        /* Testing */
+        if (showClearCanvas)
+        {
+            counter = taskList.Count;
+        }
 
-        // if (showClearCanvas)
-        // {
-        //     counter = taskList.Count;
-        // }
-
-        // CheckToggleState();
+        CheckToggleState();
     }
 
     #endregion
 
     #region Save & Load Methods
+    /// <summary>
+    /// Loads data to level
+    /// </summary>
+    /// <param name="data"></param>
     public void LoadData(GameData data)
     {
+        // load the current level
         this.currentLevelName = data.currentLevel;
 
         // Check for each object if the task is completed
-        this.fireList = data.sceneFires;
-        this.wallList = data.sceneWalls;
-        this.debrisList = data.sceneDebris;
-        this.enemyList = data.sceneEnemy;
+        // this.fireList = data.sceneFires;
+
+        // this.wallList = data.sceneWalls;
+
+        // this.debrisList = data.sceneDebris;
+        // foreach (DebrisObject d in debrisList)
+        // {
+        //     if (d.isCleared)
+        //     {
+        //         d.debrisPrefab.SetActive(false);
+        //     }
+        // }
+        // this.enemyList = data.sceneEnemy;
+        // foreach (EnemyObject e in enemyList)
+        // {
+        //     if (e.isDead)
+        //     {
+        //         e.enemyPrefab.SetActive(false);
+        //     }
+        // }
+
+        // CheckToggleState();
     }
 
+    /// <summary>
+    /// Save game data
+    /// Currently can only save the level
+    /// </summary>
+    /// <param name="data"></param>
     public void SaveData(GameData data)
     {
+        // save current level
         data.currentLevel = this.currentLevelName;
+        print("Saved level: " + data.currentLevel);
 
         // List of objective to save
-        data.sceneFires = fireList;
-        data.sceneDebris = debrisList;
-        data.sceneWalls = wallList;
-        data.sceneEnemy = enemyList;
-    }
-
-    private void LoadFire(GameData data)
-    {
-        if (data.sceneFires.Count == 0)
-        {
-            return;
-        }
-
-        foreach (FireObject fire in data.sceneFires)
-        {
-            if (fire.isExtinguished)
-            {
-                fire.firePrefab.SetActive(false);
-            }
-        }
-    }
-    private void LoadDebris(GameData data)
-    {
-        if (data.sceneDebris.Count == 0)
-        {
-            return;
-        }
-
-        foreach (DebrisObject debris in data.sceneDebris)
-        {
-            if (debris.isCleared)
-            {
-                debris.debrisPrefab.SetActive(false);
-            }
-        }
+        // data.sceneFires = fireList;
+        // data.sceneDebris = debrisList;
+        // data.sceneWalls = wallList;
+        // data.sceneEnemy = enemyList;
     }
     #endregion
 
@@ -194,18 +184,19 @@ public class LevelManager : MonoBehaviour, IDataPersistence
     public void LoadNextLevel(string levelName)
     {
         var loadSq = LeanTween.sequence();
-
+        string unloadLevelName = currentLevelName;
+        print("UNLOADING LEVEL");
         loadSq
         .append(() =>
         {
             FadeCamera.Instance.FadeInCanvas();
-
+            score.HideClear();
         })
         .append(2f)
         .append(() =>
         {
             // unload previous level and stop the music
-            GameManager.Instance.UnloadLevel(currentLevelName);
+            GameManager.Instance.UnloadLevel(unloadLevelName);
         })
         .append(2f)
         .append(() =>
@@ -221,6 +212,10 @@ public class LevelManager : MonoBehaviour, IDataPersistence
     /// </summary>
     private void CheckGameStateChanged()
     {
+        // get current level name
+        currentLevelName = SceneManager.GetActiveScene().name;
+        print("Current Level: " + currentLevelName);
+        
         // check to see if game is in a RUNNING state
         if (GameManager.Instance.CurrentGameState == GameManager.GameState.RUNNING)
         {
@@ -575,6 +570,7 @@ public class LevelManager : MonoBehaviour, IDataPersistence
                         // Convert bacak to string
                         task.objectiveCount.text = taskCount.ToString();
 
+                        print(taskCount == Convert.ToInt32(task.totalObjectiveCount.text));
                         if (taskCount == Convert.ToInt32(task.totalObjectiveCount.text))
                         {
                             task.checkBox.isOn = true;
@@ -603,16 +599,31 @@ public class LevelManager : MonoBehaviour, IDataPersistence
         playerCanvas.ShowGameOver(currentLevelName);
     }
 
-    public void SaveAndReturn()
+    /// <summary>
+    /// Save current level of game and leave
+    /// </summary>
+    public void SaveAndExit()
     {
-        DataPersistenceManager.Instance.SaveGame();
+        var backSq = LeanTween.sequence();
+        backSq
+        .append(() =>
+        {
+            DataPersistenceManager.Instance.gameData.currentLevel = currentLevelName;
+            FadeCamera.Instance.FadeInCanvas();
+        })
+        .append(() =>
+        {
+            GameManager.Instance.QuitGame();
+        });
     }
 
+    /// <summary>
+    /// Populate the Task Canvas with values
+    /// </summary>
     private void PopulateTasks()
     {
         foreach (TaskItem task in taskList)
         {
-            task.checkBox.isOn = false;
             task.objectiveCount.text = 0.ToString();
 
             // Set totalObjectiveCount
@@ -639,6 +650,10 @@ public class LevelManager : MonoBehaviour, IDataPersistence
         timerOn = true;
     }
 
+    /// <summary>
+    /// Converts float value to a readable time
+    /// </summary>
+    /// <param name="currentTime">The time in float values</param>
     private void UpdateTimer(float currentTime)
     {
         currentTime += 1;
@@ -649,6 +664,9 @@ public class LevelManager : MonoBehaviour, IDataPersistence
         timeText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
     }
 
+    /// <summary>
+    /// Checks if all tasks are cleared
+    /// </summary>
     private void CheckToggleState()
     {
         if (counter == taskList.Count)

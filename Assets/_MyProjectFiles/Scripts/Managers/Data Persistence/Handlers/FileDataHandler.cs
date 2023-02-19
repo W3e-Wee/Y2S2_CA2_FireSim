@@ -1,11 +1,10 @@
 using UnityEngine;
-using System.Collections;
 using System.IO;
 
 //---------------------------------------------------------------------------------
 // Author		: Wee Heng
-// Date  		: YYYY-MM-DD
-// Description	: This is where you write a summary of what the role of this file.
+// Date  		: 2023-02-19
+// Description	: Handles the creation, writing and reading of a file
 //---------------------------------------------------------------------------------
 
 public class FileDataHandler : MonoBehaviour

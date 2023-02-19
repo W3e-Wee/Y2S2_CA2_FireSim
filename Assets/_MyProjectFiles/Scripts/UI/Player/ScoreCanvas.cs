@@ -59,11 +59,18 @@ public class ScoreCanvas : MonoBehaviour
         winSq
         .append(() =>
         {
-            clearCanvasGroup.blocksRaycasts = true;
             LeanTween.alphaCanvas(clearCanvasGroup, 1f, 1f);
+            clearCanvasGroup.blocksRaycasts = true;
         });
+
+        return;
     }
 
+    public void HideClear()
+    {
+        clearCanvasGroup.alpha = 0;
+        clearCanvasGroup.blocksRaycasts = false;
+    }
     public void LoadNextLevel(string levelName)
     {
         levelManager.LoadNextLevel(levelName);

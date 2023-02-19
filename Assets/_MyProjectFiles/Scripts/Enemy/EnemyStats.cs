@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections;
+using UnityEngine.UI;
 
 //---------------------------------------------------------------------------------
 // Author		: Wee Heng
@@ -16,6 +16,7 @@ public class EnemyStats : MonoBehaviour
     public string enemyId = string.Empty;
     public int currentHealth;
     public bool isDead = false;
+    public Image healthBar;
 
     //===================
     // Private Variables
@@ -26,17 +27,21 @@ public class EnemyStats : MonoBehaviour
     #region Unity Methods
     protected void Start()
     {
+        // get Animator
         anim = this.GetComponent<Animator>();
+
+        // fill up bar
+        healthBar.fillAmount = currentHealth;
     }
 
 	// TEMPORARY (FOR TESTING)
-    protected void Update()
-    {
-        if (isDead)
-        {
-            Die();
-        }
-    }
+    // protected void Update()
+    // {
+    //     if (isDead)
+    //     {
+    //         Die();
+    //     }
+    // }
     
 	#endregion
 
@@ -49,8 +54,13 @@ public class EnemyStats : MonoBehaviour
         anim.SetBool("isDead", true);
     }
     public void TakeHit(int damage)
-    {
+    {   
+        // decrease health
         currentHealth -= damage;
+
+        // update the healthbar
+        healthBar.fillAmount = currentHealth;
+
         if (currentHealth <= 0)
         {
             // enemy die

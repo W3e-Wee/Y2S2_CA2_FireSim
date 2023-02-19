@@ -19,13 +19,12 @@ public class Construct : MonoBehaviour
     //====================================
     // [SerializeField] Private Variables
     //====================================
-    //[SerializeField] private Image barFill;
     [SerializeField] private float totalNeededRepair = 0f;
     [SerializeField] private float repairAmount = 0f;
     [Space(20)]
     [SerializeField] private Material dmgMaterial;
     [SerializeField] private Renderer dmgWall;
-    //[SerializeField] private float alphaColor = 0.3f;
+
     [SerializeField][Range(0f, 1f)] private float intensity;
     [SerializeField] private float repairSpeed;
     public bool repaired = false;

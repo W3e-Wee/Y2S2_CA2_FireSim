@@ -1,7 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using System.Collections;
 
 //---------------------------------------------------------------------------------
 // Author		: Wee Heng
@@ -117,16 +114,10 @@ public class MainMenu : MonoBehaviour
     {
         // check for players last played level
         string levelName = " ";
+        
+        // load game data
         DataPersistenceManager.Instance.LoadGame();
-
-        if (DataPersistenceManager.Instance.gameData != null)
-        {
-            levelName = DataPersistenceManager.Instance.gameData.currentLevel;
-        }
-        else
-        {
-            DataPersistenceManager.Instance.NewGame();
-        }
+        levelName = DataPersistenceManager.Instance.gameData.currentLevel;
 
         var loadSq = LeanTween.sequence();
 
