@@ -22,6 +22,7 @@ public class EnemyStats : MonoBehaviour
     // Private Variables
     //===================
     private Animator anim;
+    private LevelManager levelManager;
     #endregion
 
     #region Unity Methods
@@ -32,6 +33,7 @@ public class EnemyStats : MonoBehaviour
 
         // fill up bar
         healthBar.fillAmount = currentHealth;
+        levelManager = FindObjectOfType<LevelManager>();
     }
 
 	// TEMPORARY (FOR TESTING)
@@ -63,8 +65,11 @@ public class EnemyStats : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            isDead = true;
+            
             // enemy die
             Die();
+            levelManager.UpdateEnemyState(enemyId, isDead);
         }
     }
 
